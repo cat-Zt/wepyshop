@@ -2,7 +2,7 @@
 </style>
 <template>
   <view class="container">
-    Hello world
+    初始化
   </view>
 </template>
 
