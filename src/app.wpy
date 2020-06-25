@@ -7,15 +7,48 @@ import wepy from 'wepy'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index'
+      'pages/index/index',
+      'pages/course/lists',
+      'pages/newsLists/newsLists',
+      'pages/my/my'
     ],
     window: {
-      backgroundTextStyle: 'light',
-      navigationBarBackgroundColor: '#fff',
-      navigationBarTitleText: 'WeChat',
-      navigationBarTextStyle: 'black'
+      navigationBarBackgroundColor: '#ffffff',
+      navigationBarTextStyle: 'black',
+      navigationBarTitleText: '校园程序',
+      backgroundColor: '#dddddd'
+    },
+    tabBar: {
+      selectedColor: '#f06292',
+      color: '#707070',
+      list: [
+        {
+          pagePath: 'pages/index/index',
+          text: '首页',
+          iconPath: 'images/home.png',
+          selectedIconPath: 'images/home@select.png'
+        },
+        {
+          pagePath: 'pages/course/lists',
+          text: '寻课',
+          iconPath: 'images/course.png',
+          selectedIconPath: 'images/course@select.png'
+        },
+        {
+          pagePath: 'pages/newsLists/newsLists',
+          text: '资讯',
+          iconPath: 'images/news.png',
+          selectedIconPath: 'images/news@select.png'
+        },
+        {
+          pagePath: 'pages/my/my',
+          text: '个人中心',
+          iconPath: 'images/user.png',
+          selectedIconPath: 'images/user@select.png'
+        }
+      ]
     }
-  }
+  };
 
   onLaunch() {
     console.log('on launch')

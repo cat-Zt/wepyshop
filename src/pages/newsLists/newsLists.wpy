@@ -1,0 +1,17 @@
+<style lang="less">
+</style>
+<template>
+    <view>newsLists</view>
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '资讯'
+  };
+  onLoad() {
+    console.log('onLoad')
+  }
+}
+</script>

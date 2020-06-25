@@ -1,0 +1,17 @@
+<style lang="less">
+</style>
+<template>
+    <view>my</view>
+</template>
+<script>
+import wepy from 'wepy'
+
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '个人中心'
+  };
+  onLoad() {
+    console.log('onLoad')
+  }
+}
+</script>
