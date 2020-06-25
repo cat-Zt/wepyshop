@@ -1,0 +1,37 @@
+<style lang="less">
+    @import "../style/lotusToast/toast.less";
+</style>
+<template>
+    <view class="lotus-toast" wx:if="{{isHide}}">
+        <view class="lotus-toast-inner">
+            <text class="lotus-toast-title">{{tipsText}}</text>
+        </view>
+    </view>
+</template>
+<script>
+    import wepy from 'wepy'
+
+    export default class LotusToast extends wepy.component {
+      data = {
+        isHide: false,
+        tipsText: '',
+        time: 2000
+      };
+        // 显示
+      show(data) {
+        this.isHide = true
+        this.tipsText = data.tipsText
+        this.$apply()
+        setTimeout(() => {
+          this.isHide = false
+          this.$apply()
+        }, this.time)
+      };
+        // 方法调用this.$invoke('子组件，必须要单引号括起来', '子组件方法名称',  param1,param2,param3.......);
+      lotusToast(data) {
+        this.show(data)
+      }
+      onLoad() {
+      }
+    }
+</script>

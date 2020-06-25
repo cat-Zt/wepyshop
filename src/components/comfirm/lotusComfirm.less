@@ -1,0 +1,84 @@
+@import (reference) "../../style/config.less";
+@TipsPopup: lotus-comfirm;
+.@{TipsPopup}{
+  position: relative;
+  z-index: 30;
+  &-bg{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background: rgba(0,0,0,.5);
+    color: #555;
+  }
+  &-wrap{
+    position: fixed;
+    left: 50%;
+    top: 40%;
+    transform: translate(-50%,-50%);
+    width: 560rpx;
+    border-radius: 10rpx;
+    color: #333;
+    background: #fff;
+    &-top{
+      .flex();
+      .flex-hvc();
+      height: 110rpx;
+      font-size: 36rpx;
+      color: #000;
+      border-bottom: 1px solid #e3e3e3;
+    }
+    &-item{
+      padding: 20rpx 40rpx;
+      .flex();
+      .flex-hc();
+      min-height: 140rpx;
+      font-size: 32rpx;
+      > view{
+        width: 100%;
+      }
+      .tc{
+        text-align: center;
+      }
+      .item-black{
+        //margin-bottom: 35rpx;
+        width: 100%;
+        text-align: center;
+        line-height: 48rpx;
+        margin-bottom: 20rpx;
+      }
+      .item-gray{
+        margin-bottom: 15rpx;
+        font-size: 28rpx;
+        color: #999;
+      }
+    }
+    &-notit{
+      min-height: 220rpx;
+    }
+    &-btn{
+      height: 90rpx;
+      .flex();
+      .flex-between();
+      border-top: 1px solid #e3e3e3;
+      font-size: 34rpx;
+      color: #333;
+      button{
+        background: none;
+        &::after{
+          border: none;
+        }
+      }
+      .btn-item{
+        width: 100%;
+        .flex();
+        .flex-hvc();
+      }
+      .btn-blue{
+        border-left: 1px solid #e3e3e3;
+        color: #E93B3D;
+      }
+    }
+  }
+}

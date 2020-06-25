@@ -2,19 +2,28 @@
 </style>
 <template>
   <view class="container">
-    初始化
+    <lotusSearch searchBtnTxt="搜索商品" type="btn" @searchTabClick.user="searchTabClick"></lotusSearch>
   </view>
 </template>
 
 <script>
-  import wepy from 'wepy'
+import wepy from 'wepy'
+import lotusSearch from '../../components/search/lotusSearch'
 
-  export default class Index extends wepy.page {
-    config = {
-      navigationBarTitleText: '首页'
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '首页'
+  };
+  components = {
+    lotusSearch: lotusSearch
+  };
+  methods = {
+    searchTabClick() {
+      console.log(111)
     }
-    onLoad() {
-      console.log('onLoad')
-    }
+  };
+  onLoad() {
+    console.log('onLoad')
   }
+}
 </script>

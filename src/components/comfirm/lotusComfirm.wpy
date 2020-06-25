@@ -1,0 +1,101 @@
+<!---->
+<style lang="less">
+@import 'lotusComfirm.less';
+</style>
+<template>
+    <view class="lotus-comfirm" wx:if="{{show}}">
+        <view class="lotus-comfirm-bg" bindtap="closeComfirm"></view>
+        <view class="lotus-comfirm-wrap">
+            <view class="lotus-comfirm-wrap-top" wx:if="{{showTit}}">{{title}}</view>
+            <view class="lotus-comfirm-wrap-item {{showTit?'':'lotus-comfirm-wrap-notit'}}">
+                <view wx:if="{{content}}" class="{{align?'tc':''}}">{{content}}</view>
+                <slot name="content">
+                    <!--赞赏金额不对-->
+                    <!--提示去首页-->
+                    <!--<view class="item-black">余额不足，请先充值</view>
+                    &lt;!&ndash;提示去首页&ndash;&gt;
+                    <view class="item-gray">1.返回首页，点击“积分管理”</view>
+                    <view class="item-gray">2.关注药应用公众号，点击钱包充值</view>-->
+                </slot>
+            </view>
+
+            <view class="lotus-comfirm-wrap-btn" wx:if="{{customBtn}}">
+                <slot name="customBtn"></slot>
+            </view>
+            <view class="lotus-comfirm-wrap-btn" wx:if="{{!customBtn}}">
+                <view class="btn-item" bindtap="closeComfirm" wx:if="{{showCancel && !isLoad}}">{{cancelText}}</view>
+                <view class="btn-item btn-blue {{submitTextStyle ? submitTextStyle : ''}}" bindtap="sureSubmit" wx:if="{{!isLoad}}">{{submitText}}</view>
+                <view class="btn-item btn-blue" wx:if="{{isLoad}}">loading...</view>
+            </view>
+        </view>
+    </view>
+</template>
+<script>
+/*
+     <view slot="main">
+    */
+import wepy from 'wepy'
+
+export default class LotusComfirm extends wepy.component {
+  data = {
+    show: false,
+    index: 0, // 当一个页面有多个弹窗的时候 返回index用来确定点击按钮触发的事件
+    showTit: false, // 显示标题
+    title: '提示', // 标题
+    customBtn: false, // 是否自定义按钮
+    showCancel: true, // 显示取消按钮
+    submitText: '返回首页', // 确定按钮字符，默认值：返回首页
+    cancelText: '取消',
+    submitTextStyle: '',
+    isSetTimeOut: false, // 开启定时器
+    time: 2000, // 默认定时 2 秒
+    isShowLoad: false, // 点击确定按钮 显示loading 不关闭弹窗
+    isSureNotShow: false, // 点击确定是是否关闭弹窗,true表示不关闭弹窗
+    isLoad: false, // load 参数
+    content: '',
+    align: false // 文本是否居中显示
+  };
+  // 方法*
+  methods = {
+    // 搜索
+    closeComfirm() {
+      // if(this.isLoad) return;
+      this.show = false
+      this.$apply()
+      this.$emit('closeComfirm', this.index)
+    },
+    sureSubmit(e) {
+      if (!this.isShowLoad && !this.isSureNotShow) {
+        this.show = false
+      } else if (this.isShowLoad) {
+        this.isLoad = true
+      }
+      this.$apply()
+      this.$emit('comfirmSubmit', this.index)
+    }
+  };
+  // 方法调用
+  init(data) {
+    this.isLoad = false
+    this.align = false
+    this.$apply()
+    if (data) {
+      for (let attr in data) {
+        this[attr] = data[attr]
+      }
+      if (data.isSetTimeOut) {
+        const _this = this
+        setTimeout(function() {
+          _this.show = false
+          _this.$apply()
+        }, _this.time)
+      }
+      this.$apply()
+    } else {
+      this.show = false
+      this.$apply()
+    }
+  }
+  onLoad() {}
+}
+</script>

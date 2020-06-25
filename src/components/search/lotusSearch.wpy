@@ -1,0 +1,288 @@
+<!--
+【搜索】
+-->
+<style lang="less">
+@import 'lotusSearch.less';
+</style>
+<template>
+    <view class="lotus-search {{inheritBg?'lotus-search-gray':''}} {{!isBtnStatus?'lotus-search-z':''}} {{whiteBg?'lotus-search-white':''}}">
+        <view id="searchInputWrap" class="lotus-search-wrap">
+            <block wx:if="{{type === 'screen'}}">
+                <view wx:if="{{isBtnStatus}}" class="lotus-search-wrap-in">
+                    <view class="lotus-search-text" bindtap="showSearch">
+                        <view class="lotus-search-ico"></view>
+                        <!--{{searchBtnTxt}}-->
+                        <view class="lotus-search-text-txt">{{keyWord || searchPlaceholder}}</view>
+                        <view wx:if="{{keyWord}}" class="lotus-search-text-clear" @tap.stop="cancelSearch">
+                            <view class="lotus-search-text-clear-x"></view>
+                        </view>
+                    </view>
+                    <view wx:if="{{showScreen}}" @tap="screenClick" class="lotus-search-screen">
+                        筛选
+                        <view class="lotus-search-screen-ico"></view>
+                    </view>
+                </view>
+            </block>
+            <block wx:if="{{type === 'normal'}}">
+                <view wx:if="{{isBtnStatus}}" class="lotus-search-wrap-in">
+                    <view class="lotus-search-text" bindtap="showSearch" wx:if="{{keyWord}}">
+                        <view class="lotus-search-ico"></view>
+                        <!--{{searchBtnTxt}}-->
+                        <view class="lotus-search-text-txt">{{keyWord}}</view>
+                        <!--<view wx:if="{{keyWord}}" class="lotus-search-text-clear" @tap.stop="cancelSearch">
+                            <view class="lotus-search-text-clear-x"></view>
+                        </view>-->
+                    </view>
+                    <view class="lotus-search-btn" bindtap="showSearch" wx:else>
+                        <view class="lotus-search-btn-txt">
+                            <view class="lotus-search-ico"></view>{{searchBtnTxt}}
+                        </view>
+                    </view>
+                </view>
+            </block>
+            <block wx:if="{{type === 'btn'}}">
+                <view class="lotus-search-wrap-in">
+                    <view class="lotus-search-btn" bindtap="btnClick">
+                        <view class="lotus-search-btn-txt">
+                            <view class="lotus-search-ico"></view>{{searchBtnTxt}}
+                        </view>
+                    </view>
+                </view>
+            </block>
+            <view class="lotus-search-box" wx:if="{{!isBtnStatus}}">
+                <i class="lotus-search-ico"></i>
+                <input class="lotus-search-box-input" placeholder="{{searchPlaceholder}}" confirm-type="search" value="{{keyWord}}" focus="{{inputFocus}}" bindfocus="searchFocus" bindinput="searchInput" bindconfirm="searchSubmit" />
+                <!--<span class="lotus-search-box-btn" bindtap="submit">搜 索</span>-->
+                <span class="lotus-search-box-btn" bindtap="cancelSearch">取 消</span>
+            </view>
+        </view>
+        <!--搜索历史-->
+        <block wx:if="{{hasHistory}}">
+            <view class="lotus-search-history" wx:if="{{isShowHistory}}">
+                <!-- @tap="closeHistory"-->
+                <!-- style="top:{{historyHeight}}px;"-->
+                <view class="lotus-search-history-title">
+                    <text>最近搜索</text>
+                    <image @tap="delHistory" class="lotus-search-history-del" src="/images/delete-icon.png"></image>
+                </view>
+                <view class="lotus-search-history-list">
+                    <block wx:for="{{historyData}}" wx:key="{{index}}">
+                        <view class="lotus-search-history-list-li" data-Id="{{index}}" data-item="{{item}}" @tap.stop="quickSearch">{{item}}</view>
+                    </block>
+                </view>
+            </view>
+        </block>
+    </view>
+    <!--toast提示页-->
+    <lotusToast/>
+    <lotusComfirm @comfirmSubmit.user="sureDelHistory"></lotusComfirm>
+</template>
+<script>
+import wepy from 'wepy'
+import lotusToast from '../lotusToast'
+import lotusComfirm from '../comfirm/lotusComfirm'
+
+export default class LotusSearch extends wepy.component {
+  data = {
+    // inheritBg:false,
+    isBtnStatus: true,
+    // isJustBtn:false,
+    inputFocus: false,
+    keyWord: '',
+    isShowHistory: false,
+    historyData: [],
+    // historyType:'storeHistory',
+    // searchPlaceholder:'输入商品名、厂家进行搜索',
+    searchBtnTxt: '',
+    historyHeight: 0
+  };
+  components = {
+    lotusToast: lotusToast,
+    lotusComfirm: lotusComfirm
+  };
+  props = {
+    searchBtnTxt: {
+      type: String,
+      default: '搜 索'
+    },
+    whiteBg: {
+      type: Boolean,
+      default: false
+    },
+    inheritBg: {
+      type: Boolean,
+      default: false
+    },
+    searchPlaceholder: {
+      type: String,
+      default: '输入商品名、厂家进行搜索'
+    },
+    type: {
+      type: String,
+      default: 'normal'
+    },
+    isJustBtn: {
+      type: Boolean,
+      default: false
+    },
+    showScreen: {
+      type: Boolean,
+      default: false
+    },
+    hasHistory: {
+      type: Boolean,
+      default: false
+    },
+    historyType: {
+      type: String,
+      default: 'drugHistory'
+    },
+    screenOption: {
+      type: Object,
+      default: {}
+    }
+  };
+  computed = {
+    screenOptStr() {
+      let str = ''
+      const option = this.screenOption
+      for (let itemKey in option) {
+        str += `${itemKey}=${option[itemKey]}&`
+      }
+      if (this.keyWord) {
+        str = str + 'keyWord=' + this.keyWord
+      }
+      return str
+    }
+  };
+  // 方法*
+  methods = {
+    screenClick() {
+      // this.$emit('screenClick');
+      console.log(this.screenOptStr)
+      wepy.navigateTo({
+        url: '/pages/drugDataBase/selectIndex?' + this.screenOptStr
+      })
+    },
+    btnClick() {
+      this.$emit('searchTabClick')
+    },
+    showSearch() {
+      if (this.isJustBtn) {
+        this.$emit('searchTabClick')
+      } else {
+        this.isBtnStatus = false
+        this.inputFocus = true
+        this.$emit('searchTabClick')
+        this.$apply()
+      }
+    },
+    cancelSearch() {
+      this.$emit('searchCancel')
+      this.keyWord = ''
+      this.isBtnStatus = true
+      this.isShowHistory = false
+      this.$apply()
+    },
+    searchFocus() {
+      if (this.hasHistory) {
+        this.isShowHistory = true
+        this.$emit('searchFocus')
+        this.$apply()
+      }
+    },
+    // 搜索
+    searchInput(e) {
+      this.keyWord = e.detail.value
+      // this.$emit('searchChange', e.detail.value);
+      this.$apply()
+    },
+    searchSubmit() {
+      if (!this.keyWord.trim()) {
+        this.lotusToastShow({
+          tipsText: '请输入搜索内容~',
+          isHide: true,
+          time: 1500
+        })
+        return
+      }
+      this.isShowHistory = false
+      if (this.hasHistory) {
+        this.setHistoryData(this.keyWord)
+      }
+      // this.isBtnStatus = true;
+      this.$apply()
+      this.$emit('searchSubmit', this.keyWord)
+    },
+    quickSearch(event) {
+      const val = event.currentTarget.dataset.item
+      this.keyWord = val
+      this.isShowHistory = false
+      // this.isBtnStatus = true;
+      this.$apply()
+      this.$emit('searchSubmit', val)
+    },
+    closeHistory() {
+      this.isShowHistory = false
+      this.$apply()
+    },
+    // 清空搜索历史
+    delHistory() {
+      this.$invoke('lotusComfirm', 'init', {
+        show: true,
+        content: '确定清除搜索记录？',
+        submitText: '确定',
+        align: true
+      })
+    },
+    // 确定清空搜索历史
+    sureDelHistory() {
+      console.log('delHistory', this.historyData)
+      this.historyData = ['测试搜索']
+      wx.removeStorageSync(this.historyType)
+      this.$apply()
+    }
+  };
+  // 设置历史记录
+  setHistoryData(Data) {
+    const data = Data.trim()
+    if (!data) return
+    let allHistoryData = this.historyData
+    if (allHistoryData.indexOf(data) == -1) {
+      // 判断在s数组中是否存在，不存在则push到s数组中
+      allHistoryData.push(data)
+      if (allHistoryData.length > 10) {
+        allHistoryData = allHistoryData.slice(0, 10)
+      }
+      wx.setStorageSync(this.historyType, JSON.stringify(allHistoryData))
+    }
+  }
+  lotusToastShow(data) {
+    this.$invoke('lotusToast', 'show', data)
+    this.$apply()
+  }
+  // 方法调用
+  init(data) {
+    if (data) {
+      for (let attr in data) {
+        this[attr] = data[attr]
+      }
+      this.$apply()
+    }
+  }
+  onLoad() {
+    this.historyData = wx.getStorageSync(this.historyType) ? JSON.parse(wx.getStorageSync(this.historyType)) : ['测试搜索']
+    this.$apply()
+    const _this = this
+    // 获取搜索框的高度，定位搜索历史记录位置
+    /* wx.createSelectorQuery().select('#searchInputWrap').boundingClientRect(function(rect){
+            console.log(rect)
+          if(rect) {
+            _this.historyHeight = rect.bottom;  // 节点的下边界坐标
+            console.log( _this.historyHeight)
+            _this.$apply();
+          }
+        }).exec() */
+  }
+}
+</script>

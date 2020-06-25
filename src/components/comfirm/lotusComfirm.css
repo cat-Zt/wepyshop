@@ -1,0 +1,91 @@
+.lotus-comfirm {
+  position: relative;
+  z-index: 30;
+}
+.lotus-comfirm-bg {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  color: #555;
+}
+.lotus-comfirm-wrap {
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  width: 560rpx;
+  border-radius: 10rpx;
+  color: #333;
+  background: #fff;
+}
+.lotus-comfirm-wrap-top {
+  /*display: -webkit-box;
+  display: -webkit-flex;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 110rpx;
+  font-size: 36rpx;
+  color: #000;
+  border-bottom: 1px solid #e3e3e3;
+}
+.lotus-comfirm-wrap-item {
+  padding: 20rpx 40rpx;
+  /*display: -webkit-box;
+  display: -webkit-flex;*/
+  display: flex;
+  align-items: center;
+  min-height: 140rpx;
+  font-size: 32rpx;
+}
+.lotus-comfirm-wrap-item > view {
+  width: 100%;
+}
+.lotus-comfirm-wrap-item .tc {
+  text-align: center;
+}
+.lotus-comfirm-wrap-item .item-black {
+  width: 100%;
+  text-align: center;
+  line-height: 48rpx;
+  margin-bottom: 20rpx;
+}
+.lotus-comfirm-wrap-item .item-gray {
+  margin-bottom: 15rpx;
+  font-size: 28rpx;
+  color: #999;
+}
+.lotus-comfirm-wrap-notit {
+  min-height: 220rpx;
+}
+.lotus-comfirm-wrap-btn {
+  height: 90rpx;
+  /*display: -webkit-box;
+  display: -webkit-flex;*/
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid #e3e3e3;
+  font-size: 34rpx;
+  color: #333;
+}
+.lotus-comfirm-wrap-btn button {
+  background: none;
+}
+.lotus-comfirm-wrap-btn button::after {
+  border: none;
+}
+.lotus-comfirm-wrap-btn .btn-item {
+  width: 100%;
+  /*display: -webkit-box;
+  display: -webkit-flex;*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.lotus-comfirm-wrap-btn .btn-blue {
+  border-left: 1px solid #e3e3e3;
+  color: #E93B3D;
+}
