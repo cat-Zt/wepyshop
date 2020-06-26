@@ -1,0 +1,67 @@
+@import (reference) "../../style/config.less";
+
+@searchGoods: search-goods;
+.@{searchGoods} {
+    &-fShop{
+        font-size: 28rpx;
+        color: #333;
+    }
+    &-list{
+        padding: 20rpx 0;
+        background: #fff;
+    }
+    &-item{
+        .flex();
+        .flex-hc();
+        padding:10rpx 30rpx;
+        box-sizing: border-box;
+        margin-bottom: 60rpx;
+        &-img{
+            width:230rpx;
+            height:230rpx;
+            border-radius: 6rpx;
+            flex-shrink: 0;
+            margin-right:20rpx;
+        }
+        &-r{
+            width: 100%;
+        }
+        &-name{
+            font-size: 28rpx;
+            color: #333;
+            .text-elipsis-lines(2);
+            margin-bottom: 10rpx;
+        }
+        &-compony{
+            font-size: 26rpx;
+            color: #999;
+            margin-bottom: 30rpx;
+            .text-elipsis-lines(1);
+        }
+        &-b{
+            .flex();
+            .flex-between();
+            &-l{
+                font-size: 28rpx;
+                color: #e93b3d;
+            }
+            &-price{
+                font-size: 36rpx;
+                font-weight: 700;
+            }
+            &-cart{
+                .flex();
+                .flex-hvc();
+                width:60rpx;
+                height:60rpx;
+                background: #fe553f;
+                border-radius: 50%;
+            }
+            &-icon{
+                width:32rpx;
+                height:32rpx;
+            }
+        }
+
+    }
+}

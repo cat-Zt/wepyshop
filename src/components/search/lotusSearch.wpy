@@ -63,10 +63,10 @@
                 <!-- style="top:{{historyHeight}}px;"-->
                 <view class="lotus-search-history-title">
                     <text>最近搜索</text>
-                    <image @tap="delHistory" class="lotus-search-history-del" src="/images/delete-icon.png"></image>
+                    <image @tap="delHistory" class="lotus-search-history-del" src="/images/delete-icon.png" />
                 </view>
                 <view class="lotus-search-history-list">
-                    <block wx:for="{{historyData}}" wx:key="{{index}}">
+                    <block wx:for="{{historyData}}" wx:key="index">
                         <view class="lotus-search-history-list-li" data-Id="{{index}}" data-item="{{item}}" @tap.stop="quickSearch">{{item}}</view>
                     </block>
                 </view>

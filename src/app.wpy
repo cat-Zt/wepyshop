@@ -10,7 +10,8 @@ export default class extends wepy.app {
       'pages/index/index',
       'pages/course/lists',
       'pages/newsLists/newsLists',
-      'pages/my/my'
+      'pages/my/my',
+      'pages/classify/searchGoods' // 商品搜索
     ],
     window: {
       navigationBarBackgroundColor: '#ffffff',

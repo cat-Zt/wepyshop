@@ -20,6 +20,9 @@ export default class Index extends wepy.page {
   methods = {
     searchTabClick() {
       console.log(111)
+      wx.navigateTo({
+        url: '/pages/classify/searchGoods'
+      })
     }
   };
   onLoad() {
