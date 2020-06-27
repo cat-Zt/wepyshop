@@ -68,22 +68,22 @@ const userLoginByCode = async () => {
   })
 }
 // 获取code
-const CheckSession = async () => {
-  return new Promise((resolve, reject) => {
-    wx.checkSession({
-      success: function() {
-                // session_key 未过期，并且在本生命周期一直有效
-        console.log('未过期，并且在本生命周期一直有效')
-        return resolve(true)
-      },
-      fail: function() {
-                // 失败重新获取
-        console.log('失败重新获取')
-        return resolve(false)
-      }
-    })
-  })
-}
+// const CheckSession = async () => {
+//   return new Promise((resolve, reject) => {
+//     wx.checkSession({
+//       success: function() {
+//                 // session_key 未过期，并且在本生命周期一直有效
+//         console.log('未过期，并且在本生命周期一直有效')
+//         return resolve(true)
+//       },
+//       fail: function() {
+//                 // 失败重新获取
+//         console.log('失败重新获取')
+//         return resolve(false)
+//       }
+//     })
+//   })
+// }
 
 const checkUserRegister = async (loadPageRoute, options, isJump = true, callback) => {
     // loadPageRoute,options=>loadPageRoute着陆页路由，options着陆页option

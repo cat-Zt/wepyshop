@@ -1,195 +1,336 @@
 <style lang="less">
-    @import "searchGoods.less";
+@import 'searchGoods.less';
 </style>
 <template>
-    <view class="search-goods">
-        <form @submit="getFormId" report-submit>
-            <scroll-view style="height: {{scrollHeight}}px;" bindscrolltolower="loadMore" scroll-y="{{isScroll}}" enable-back-to-top="{{true}}" lower-threshold="50">
-                <lotusSearch :hasHistory.sync="hasHistory" :historyType.sync="historyType" @searchSubmit.user="searchSubmit" @searchFocus.user="searchFocus" :searchPlaceholder.sync="searchPlaceholder" @searchCancel.user="searchCancel"></lotusSearch>
-                <!--商品列表-->
-                <view wx:if="{{dataList.length}}" class="search-goods-list">
-                    <repeat for="{{dataList}}" index="index" item="item">
-                        <!--<productAll :index.sync="index" :item.sync="item" :isShowCart.sync="isShowCart" :isShowActFlag.sync="isShowActFlag" @clickShoppingCart.user="clickShoppingCart"></productAll>-->
-                        <view @tap="goToDetail({{item.CatalogDetailCode}})" class="search-goods-item">
-                            <image class="search-goods-item-img" mode="aspectFit" src="{{item.DrugImg || '/images/defaultPro.png'}}"></image>
-                            <view class="search-goods-item-r">
-                                <view wx:if="{{item.CustomGoodsName}}" class="search-goods-item-name">{{item.CustomGoodsName}}</view>
-                                <view wx:else class="search-goods-item-name">{{item.GoodsName || ''}} {{item.Genericname}} {{item.Spec}}</view>
-                                <view class="search-goods-item-compony">{{item.Manufacturer || ''}}</view>
-                                <view class="search-goods-item-b">
-                                    <view class="search-goods-item-b-l">¥ <text class="search-goods-item-b-price">{{(item.SupplyPrice)/100}}</text></view>
-                                    <view @tap.stop="clickShoppingCart({{item}})" class="search-goods-item-b-cart">
-                                        <image class="search-goods-item-b-icon" src="/images/btn-cart.png"></image>
-                                    </view>
-                                </view>
-                            </view>
-                        </view>
-                    </repeat>
+  <view class="search-goods">
+    <form @submit="getFormId" report-submit>
+      <scroll-view style="height: {{scrollHeight}}px;" bindscrolltolower="loadMore" scroll-y="{{isScroll}}" enable-back-to-top="{{true}}" lower-threshold="50">
+        <lotusSearch :hasHistory.sync="hasHistory" :historyType.sync="historyType" @searchSubmit.user="searchSubmit" @searchFocus.user="searchFocus" :searchPlaceholder.sync="searchPlaceholder" @searchCancel.user="searchCancel"></lotusSearch>
+        <!--商品列表-->
+        <view wx:if="{{dataList.length}}" class="search-goods-list">
+          <repeat for="{{dataList}}" index="index" item="item">
+            <!--<productAll :index.sync="index" :item.sync="item" :isShowCart.sync="isShowCart" :isShowActFlag.sync="isShowActFlag" @clickShoppingCart.user="clickShoppingCart"></productAll>-->
+            <view @tap="goToDetail({{item.CatalogDetailCode}})" class="search-goods-item">
+              <image class="search-goods-item-img" mode="aspectFit" src="{{item.DrugImg || '/images/defaultPro.png'}}"></image>
+              <view class="search-goods-item-r">
+                <view wx:if="{{item.CustomGoodsName}}" class="search-goods-item-name">{{item.CustomGoodsName}}</view>
+                <view wx:else class="search-goods-item-name">{{item.GoodsName || ''}} {{item.Genericname}} {{item.Spec}}</view>
+                <view class="search-goods-item-compony">{{item.Manufacturer || ''}}</view>
+                <view class="search-goods-item-b">
+                  <view class="search-goods-item-b-l">¥
+                    <text class="search-goods-item-b-price">{{(item.SupplyPrice)/100}}</text>
+                  </view>
+                  <view @tap.stop="clickShoppingCart({{item}})" class="search-goods-item-b-cart">
+                    <image class="search-goods-item-b-icon" src="/images/btn-cart.png"></image>
+                  </view>
                 </view>
-                <view wx:if="{{isShowMore}}" class="base-bottom-hint">{{noMoreText}}</view>
-                <!-- <lotusNoData></lotusNoData> -->
-            </scroll-view>
-        </form>
-        <!-- <shoppingLayer></shoppingLayer>
+              </view>
+            </view>
+          </repeat>
+        </view>
+        <view wx:if="{{isShowMore}}" class="base-bottom-hint">{{noMoreText}}</view>
+        <lotusNoData></lotusNoData>
+      </scroll-view>
+    </form>
+    <!-- <shoppingLayer></shoppingLayer>
         <navHome></navHome> -->
-    </view>
+  </view>
 </template>
 <script>
-    import wepy from 'wepy'
-    import {lotusAjax} from '../../utils/lotusAjax.js'
-    import lotusSearch from '../../components/search/lotusSearch'
-    // import productAll from '../../components/productAll/productAll'
-    // import shoppingLayer from '../../components/shoppinglayer/shoppingLayer'
-    // import lotusNoData from '../../components/noData/lotusNoData'
-    // import navHome from '../../components/navHome/navHome'
-    export default class searchGoods extends wepy.page {
-      config = {
-        navigationBarTitleText: '搜索',
-        disableScroll: true
-      }
-      components = {
-        lotusSearch
-            // productAll,
-            // shoppingLayer,
-            // lotusNoData,
-            // navHome
-      }
-      data = {
-        scrollHeight: 0,
-        flag: true,
-        pageIndex: 0,
-        pageSize: 20,
-        isShowMore: false,
-        noMoreText: '',
-        dataList: [],
-        keyWord: '',
-        isScroll: true,
+import wepy from 'wepy'
+import { lotusAjax } from '../../utils/lotusAjax.js'
+import lotusSearch from '../../components/search/lotusSearch'
+// import productAll from '../../components/productAll/productAll'
+// import shoppingLayer from '../../components/shoppinglayer/shoppingLayer'
+import lotusNoData from '../../components/noData/lotusNoData'
+// import navHome from '../../components/navHome/navHome'
+export default class searchGoods extends wepy.page {
+  config = {
+    navigationBarTitleText: '搜索',
+    disableScroll: true
+  };
+  components = {
+    lotusSearch,
+    // productAll,
+    // shoppingLayer,
+    lotusNoData
+    // navHome
+  };
+  data = {
+    scrollHeight: 0,
+    flag: true,
+    pageIndex: 0,
+    pageSize: 10,
+    isShowMore: false,
+    noMoreText: '',
+    dataList: [],
+    keyWord: '',
+    isScroll: true,
 
-            // 搜索组件数据
-        searchPlaceholder: '输入商品标题',
-        hasHistory: true,
-        historyType: 'indexSearch',
+    // 搜索组件数据
+    searchPlaceholder: '输入商品标题',
+    hasHistory: true,
+    historyType: 'indexSearch',
 
-            // 商品组件数据
-        isShowCart: true,
-        isShowActFlag: true
+    // 商品组件数据
+    isShowCart: true,
+    isShowActFlag: true
+  };
+  methods = {
+    getFormId(e) {
+      lotusUtils.postFormId(e)
+    },
+    // 加载更多
+    loadMore() {
+      this.getGoodsList()
+    },
+    searchFocus() {
+      this.isScroll = false
+    },
+    searchSubmit(keyWord) {
+      this.initData()
+      this.keyWord = keyWord
+      this.getGoodsList()
+    },
+    // 显示购物车弹层
+    clickShoppingCart(item) {
+      const drugMsg = item
+      const drugData = {
+        CustomGoodsName: drugMsg.CustomGoodsName || '', // 自定义商品标题
+        GoodsName: drugMsg.GoodsName,
+        Genericname: drugMsg.Genericname,
+        Spec: drugMsg.Spec,
+        SupplyPriceType: drugMsg.SupplyPriceType, // 价格类型
+        SupplyPrice: drugMsg.SupplyPrice / 100, // 单价，已除100的价格
+        PriceArr: drugMsg.PriceList || [], // 阶梯价
+        SupplierCode: drugMsg.SupplierCode, // 供应商编号
+        CatalogDetailCode: drugMsg.CatalogDetailCode, // 商品明细编号
+        Stock: drugMsg.Stock, // 库存
+        IsCheckStock: drugMsg.IsCheckStock, // 是否校验库存
+        MinQty: drugMsg.PurchaseQty, // 起购数
+        GoodsUnit: drugMsg.GoodsUnit || '件', // 单位
+        DrugImg: drugMsg.DrugImg, // 药品封面图片
+        OriginalPris: 0 // 阶梯价是否要除100（需要除以100：1，否：0）
       }
-      methods = {
-        getFormId(e) {
-          lotusUtils.postFormId(e)
-        },
-            // 加载更多
-        loadMore() {
-          this.getGoodsList()
-        },
-        searchFocus() {
-          this.isScroll = false
-        },
-        searchSubmit(keyWord) {
-          this.initData()
-          this.keyWord = keyWord
-          this.getGoodsList()
-        },
-            // 显示购物车弹层
-        clickShoppingCart(item) {
-          const drugMsg = item
-          const drugData = {
-            CustomGoodsName: drugMsg.CustomGoodsName || '', // 自定义商品标题
-            GoodsName: drugMsg.GoodsName,
-            Genericname: drugMsg.Genericname,
-            Spec: drugMsg.Spec,
-            SupplyPriceType: drugMsg.SupplyPriceType, // 价格类型
-            SupplyPrice: (drugMsg.SupplyPrice) / 100, // 单价，已除100的价格
-            PriceArr: drugMsg.PriceList || [], // 阶梯价
-            SupplierCode: drugMsg.SupplierCode, // 供应商编号
-            CatalogDetailCode: drugMsg.CatalogDetailCode, // 商品明细编号
-            Stock: drugMsg.Stock, // 库存
-            IsCheckStock: drugMsg.IsCheckStock, // 是否校验库存
-            MinQty: drugMsg.PurchaseQty, // 起购数
-            GoodsUnit: drugMsg.GoodsUnit || '件', // 单位
-            DrugImg: drugMsg.DrugImg, // 药品封面图片
-            OriginalPris: 0// 阶梯价是否要除100（需要除以100：1，否：0）
-          }
-          this.$invoke('shoppingLayer', 'show', drugData)
-        },
-
-        searchCancel() {
-          this.isScroll = true
-          wx.navigateBack({
-            delta: 1
-          })
-        },
-        affirmShopping(num) {
-          this.$invoke('navHome', 'init', num)
-        },
-            // 详情页
-        goToDetail(code) {
-          wx.navigateTo({
-            url: '/pages/drugDataBase/goodsDetail?code=' + code
-          })
-        }
-      }
-        // 获取商品列表
-      getGoodsList() {
-        if (this.flag) {
-          this.flag = false
-          lotusAjax.fetch('GET', this.$parent.data.apiUrl + 'Goods/GetGoodsList', {
-            data: {
-              MybWxDetailCode: wepy.getStorageSync('wxDetailCode'),
-              KeyWord: this.keyWord,
-              PageIndex: this.pageIndex,
-              PageSize: this.pageSize,
-              LabelName: ''
-            }
-          }).then((response) => {
-            let res = response.Data
-            if (res && res.length) {
-              this.dataList = this.dataList.concat(res)
-                    // 翻页判断
-              if (this.pageSize <= res.length) {
-                            // 赋值
-                this.flag = true
-                this.isShowMore = true
-                this.pageIndex = this.pageIndex + 1
-                this.noMoreText = '上拉加载更多'
-              }
-              if (this.dataList.length == response.DataCount) {
-                this.noMoreText = '没有更多了'
-              }
-            }
-            if (this.dataList.length === 0) {
-              this.isShowMore = false
-              this.lotusNoData({show: true, imgType: 3, isNofixed: true, textArr: ['暂无商品']})
-            } else {
-              this.lotusNoData({show: false})
-            }
-            this.$apply()
-          })
-        }
-      }
-      initData() {
-        this.isShowMore = false
-        this.pageIndex = 0
-        this.flag = true
-        this.dataList = []
-        this.isScroll = true
-      }
-      lotusNoData(data) {
-        this.$invoke('lotusNoData', 'init', data)
-      }
-
-      onLoad() {
-        const _this = this
-        wx.getSystemInfo({
-          success: function (res) {
-            _this.scrollHeight = res.windowHeight
-          }
-        })
-        this.$invoke('lotusSearch', 'init', {isShowHistory: true, isBtnStatus: false, inheritBg: true, inputFocus: true})
-        this.$apply()
-      }
-
-      onShow() {
-      }
+      this.$invoke('shoppingLayer', 'show', drugData)
+    },
+    // 取消
+    searchCancel() {
+      this.isScroll = true
+      wx.navigateBack({
+        delta: 1
+      })
+    },
+    affirmShopping(num) {
+      this.$invoke('navHome', 'init', num)
+    },
+    // 详情页
+    goToDetail(code) {
+      wx.navigateTo({
+        url: '/pages/drugDataBase/goodsDetail?code=' + code
+      })
     }
+  };
+  // 获取商品列表
+  getGoodsList() {
+    if (this.flag) {
+      this.flag = false
+      lotusAjax
+        .fetch(
+          'GET',
+          'https://4e14ccec-abcc-46a7-a4fa-d99bd2a0cdd9.mock.pstmn.io/course/all',
+        {
+          data: {
+            MybWxDetailCode: wepy.getStorageSync('wxDetailCode'),
+            call_name: this.keyWord,
+            page: this.pageIndex,
+            page_size: this.pageSize
+          }
+        }
+        )
+        .then(response => {
+          const res1 = {
+            data: [
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品1',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品5',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品7',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品09',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品10',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品10',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品10',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品10',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              }
+            ],
+            msg: '获取成功',
+            status: 0,
+            DataCount: 13
+          }
+          const res2 = {
+            data: [
+              {
+                CatalogDetailCode: '12345789',
+                CustomGoodsName: '测试商品1',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              },
+              {
+                CatalogDetailCode: '12345789',
+                GoodsName: '呵呵',
+                Genericname: '嘻嘻',
+                Spec: '诶诶',
+                Manufacturer: '幻想国度退堂鼓制造厂',
+                SupplyPrice: 20000
+              }
+            ],
+            msg: '获取成功',
+            status: 0,
+            DataCount: 13
+          }
+          const endres = this.pageIndex >= 1 ? res2 : res1
+          response = endres
+          let res = response.data
+          console.log('res', res)
+          if (res && res.length) {
+            this.dataList = []
+            // 翻页判断
+            if (this.pageSize <= res.length) {
+              // 赋值
+              this.flag = true
+              this.isShowMore = true
+              this.pageIndex = this.pageIndex + 1
+              this.noMoreText = '上拉加载更多'
+            }
+            if (this.dataList.length === response.DataCount) {
+              this.noMoreText = '没有更多了'
+            }
+          }
+          if (this.dataList.length === 0) {
+            this.isShowMore = false
+            this.lotusNoData({show: true, imgType: 3, isNofixed: true, textArr: ['暂无商品']})
+          } else {
+            this.lotusNoData({show: false})
+          }
+          this.$apply()
+        })
+    }
+  }
+  initData() {
+    this.isShowMore = false
+    this.pageIndex = 0
+    this.flag = true
+    this.dataList = []
+    this.isScroll = true
+  }
+  lotusNoData(data) {
+    this.$invoke('lotusNoData', 'init', data)
+  }
+
+  onLoad() {
+    const _this = this
+    wx.getSystemInfo({
+      success: function(res) {
+        _this.scrollHeight = res.windowHeight
+      }
+    })
+    this.$invoke('lotusSearch', 'init', {
+      isShowHistory: true,
+      isBtnStatus: false,
+      inheritBg: true,
+      inputFocus: true
+    })
+    this.$apply()
+  }
+
+  onShow() {}
+}
 </script>

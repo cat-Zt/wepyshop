@@ -1,4 +1,8 @@
 <style lang="less">
+ @import "./style/app.less";
+    page {
+        background: #f7f7f7;
+    }
 </style>
 
 <script>

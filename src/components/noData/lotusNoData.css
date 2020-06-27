@@ -1,0 +1,38 @@
+.lotus-nodata {
+  position: fixed;
+  width: 100%;
+  text-align: center;
+  padding-top: 160rpx;
+  padding-bottom: 160rpx;
+  color: #333333;
+  font-size: 30rpx;
+  background: #fff;
+  box-sizing: border-box;
+}
+.lotus-nodata-nofixed {
+  position: relative;
+  height: auto;
+}
+.lotus-nodata-pic {
+  margin: 0 auto;
+  margin-bottom: 80rpx;
+}
+.lotus-nodata-pic .pic {
+  width: 350rpx;
+}
+.lotus-nodata-des {
+  font-size: 30rpx;
+  color: #666;
+}
+.lotus-nodata-btn {
+  display: inline-block;
+  background: #0090ff;
+  color: #fff;
+  border-radius: 40rpx;
+  height: 70rpx;
+  min-width: 200rpx;
+  line-height: 70rpx;
+  margin: 30rpx auto 0;
+  padding: 0 30rpx;
+  font-size: 30rpx;
+}

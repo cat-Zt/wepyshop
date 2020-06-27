@@ -14,7 +14,7 @@ const getUserSystem = () => {
           version: res.version, // 微信版本号
           system: res.system, // 操作系统版本
           platform: res.platform, // 客户端平台
-          SDKVersion: res.SDKVersion// 客户端基础库版本
+          SDKVersion: res.SDKVersion // 客户端基础库版本
         }
         resolve(obj)
       }
@@ -26,7 +26,7 @@ const lotusAjax = {
   get: (url, options) => {
     let accessToken = wx.getStorageSync('accessToken')
     return getUserSystem().then((systemRes) => {
-            // console.log(systemRes);
+      // console.log(systemRes);
       if (!options.data.hideLoading && !requestUrlArr.length) {
         wepy.showLoading({
           title: options.message || '加载中',
@@ -40,23 +40,23 @@ const lotusAjax = {
           data: options.data || {},
           header: {
             'content-type': options.contentType || 'application/x-www-form-urlencoded',
-                        // 'Authorization': `Bearer ${accessToken}`,
-                        // 'Authorization': `Bearer eeHNyiKVVjsY8LtwNTFLej8FhGlfSP-d-u16NkTdNfpbHVAkwIBpRJjZ1gb9nPPctjoOmOVGWzbaFedf9_tlq2rnQlsd-WLkhr-FuDzBFDO9Lb94eeqJdG8RZM8-G5hkcmTmitzJ5ezWkiS1Ij_UJ4Epblaoq-VHS02Scop3l4YtlZ3D3dRkvuIvZq0i9m3tZzCOiRsUcY6l2VrSRpXwMKsYc9xUbkAIjTxgeIwG-MJvAd4o95MfCdxVAbJlayLrEBOrhQ`,
+            // 'Authorization': `Bearer ${accessToken}`,
+            // 'Authorization': `Bearer eeHNyiKVVjsY8LtwNTFLej8FhGlfSP-d-u16NkTdNfpbHVAkwIBpRJjZ1gb9nPPctjoOmOVGWzbaFedf9_tlq2rnQlsd-WLkhr-FuDzBFDO9Lb94eeqJdG8RZM8-G5hkcmTmitzJ5ezWkiS1Ij_UJ4Epblaoq-VHS02Scop3l4YtlZ3D3dRkvuIvZq0i9m3tZzCOiRsUcY6l2VrSRpXwMKsYc9xUbkAIjTxgeIwG-MJvAd4o95MfCdxVAbJlayLrEBOrhQ`,
             'sMsg': JSON.stringify(systemRes)
           },
           method: 'GET',
           success: function (res) {
-	                    const result = res.data
+            const result = res.data
             if (res.statusCode === 200 || res.statusCode === 304) {
               resolve(result)
             } else {
-                            // 捕获错误信息
+              // 捕获错误信息
               if (res.data.Error) {
                 const errorMsg = res.data.Error.Message
                 wepy.showToast({
                   title: errorMsg,
                   icon: 'none',
-	                                duration: 2000
+                  duration: 2000
                 })
                 resolve(result)
               } else {
@@ -71,13 +71,13 @@ const lotusAjax = {
             wepy.hideLoading()
           },
           complete: function () {
-                        // 请求完成清除当前url
+            // 请求完成清除当前url
             requestUrlArr.map((item, index) => {
               if (item === url) {
                 requestUrlArr.splice(index, 1)
               }
             })
-                        // 请求api数组为空隐藏加载中弹层重置数组
+            // 请求api数组为空隐藏加载中弹层重置数组
             if (!requestUrlArr.length) {
               wepy.hideLoading()
               requestUrlArr = []
@@ -90,7 +90,7 @@ const lotusAjax = {
   post: (url, options) => {
     let accessToken = wx.getStorageSync('accessToken')
     return getUserSystem().then((systemRes) => {
-            // console.log(systemRes);
+      // console.log(systemRes);
       if (!options.data.hideLoading && !requestUrlArr.length) {
         wepy.showLoading({
           title: options.message || '加载中',
@@ -104,24 +104,24 @@ const lotusAjax = {
           data: options.data || {},
           header: {
             'content-type': options.contentType || 'application/x-www-form-urlencoded',
-                        // 'Authorization': `Bearer ${accessToken}`,
+            // 'Authorization': `Bearer ${accessToken}`,
             'sMsg': JSON.stringify(systemRes)
           },
           method: 'POST',
           success: function (res) {
-	                    const result = res.data
+            const result = res.data
             if (res.statusCode === 200 || res.statusCode === 304) {
               resolve(result)
             } else {
-                            // 捕获错误信息
+              // 捕获错误信息
               if (res.data.Error) {
                 const errorMsg = res.data.Error.Message
                 wepy.showToast({
                   title: errorMsg,
                   icon: 'none',
-	                                duration: 2000
+                  duration: 2000
                 })
-	                            resolve(result)
+                resolve(result)
               } else {
                 wepy.showToast({
                   title: '网络异常',
@@ -134,13 +134,13 @@ const lotusAjax = {
             wepy.hideLoading()
           },
           complete: function () {
-                        // 请求完成清除当前url
+            // 请求完成清除当前url
             requestUrlArr.map((item, index) => {
               if (item === url) {
                 requestUrlArr.splice(index, 1)
               }
             })
-                        // 请求api数组为空隐藏加载中弹层重置数组
+            // 请求api数组为空隐藏加载中弹层重置数组
             if (!requestUrlArr.length) {
               wepy.hideLoading()
               requestUrlArr = []
@@ -153,8 +153,8 @@ const lotusAjax = {
   fetch: (method, url, options) => {
     let accessToken = wx.getStorageSync('accessToken')
     return getUserSystem().then((systemRes) => {
-            // console.log(systemRes);
-            // 统计不需要显示loading标识
+      // console.log(systemRes);
+      // 统计不需要显示loading标识
       if (options.data.hideLoading) {
         loadingFlag.push(options.data.hideLoading)
       }
@@ -171,8 +171,8 @@ const lotusAjax = {
           data: options.data || {},
           header: {
             'content-type': options.contentType || 'application/x-www-form-urlencoded',
-                        // 'Authorization': `Bearer ${accessToken}`,
-                        // 'Authorization': `Bearer eeHNyiKVVjsY8LtwNTFLej8FhGlfSP-d-u16NkTdNfpbHVAkwIBpRJjZ1gb9nPPctjoOmOVGWzbaFedf9_tlq2rnQlsd-WLkhr-FuDzBFDO9Lb94eeqJdG8RZM8-G5hkcmTmitzJ5ezWkiS1Ij_UJ4Epblaoq-VHS02Scop3l4YtlZ3D3dRkvuIvZq0i9m3tZzCOiRsUcY6l2VrSRpXwMKsYc9xUbkAIjTxgeIwG-MJvAd4o95MfCdxVAbJlayLrEBOrhQ`,
+            // 'Authorization': `Bearer ${accessToken}`,
+            // 'Authorization': `Bearer eeHNyiKVVjsY8LtwNTFLej8FhGlfSP-d-u16NkTdNfpbHVAkwIBpRJjZ1gb9nPPctjoOmOVGWzbaFedf9_tlq2rnQlsd-WLkhr-FuDzBFDO9Lb94eeqJdG8RZM8-G5hkcmTmitzJ5ezWkiS1Ij_UJ4Epblaoq-VHS02Scop3l4YtlZ3D3dRkvuIvZq0i9m3tZzCOiRsUcY6l2VrSRpXwMKsYc9xUbkAIjTxgeIwG-MJvAd4o95MfCdxVAbJlayLrEBOrhQ`,
             'sMsg': JSON.stringify(systemRes)
           },
           method: method,
@@ -181,7 +181,7 @@ const lotusAjax = {
             if (res.statusCode === 200 || res.statusCode === 304) {
               resolve(result)
             } else {
-                            // 捕获错误信息
+              // 捕获错误信息
               if (res.data.Error) {
                 const errorMsg = res.data.Error.Message
                 wepy.showToast({
@@ -197,7 +197,7 @@ const lotusAjax = {
                 })
               }
             }
-                        // 请求完成清除当前url
+            // 请求完成清除当前url
             requestUrlArr.map((item, index) => {
               if (item === url) {
                 requestUrlArr.splice(index, 1)
@@ -208,8 +208,8 @@ const lotusAjax = {
             wepy.hideLoading()
           },
           complete: function () {
-                        // console.log(requestUrlArr.length);
-                        // 请求api数组为空隐藏加载中弹层重置数组
+            // console.log(requestUrlArr.length);
+            // 请求api数组为空隐藏加载中弹层重置数组
             if (!requestUrlArr.length) {
               wepy.hideLoading()
               requestUrlArr = []
@@ -222,5 +222,5 @@ const lotusAjax = {
   }
 }
 export {
-    lotusAjax
+  lotusAjax
 }
