@@ -1,0 +1,49 @@
+@import (reference) "../../style/config.less";
+
+@authorize: authorize;
+.@{authorize}{
+  margin: 200rpx auto 0;
+  width: 580rpx;
+  height: 700rpx;
+  border-radius: 20rpx;
+  overflow: hidden;
+  &-con{
+    width: 580rpx;
+    height: 500rpx;
+    background: #E93B3D;
+    color: #fff;
+    box-sizing: border-box;
+    text-align: center;
+    padding-top: 100rpx;
+    &-pic{
+      width: 180rpx;
+      height: 180rpx;
+      margin: 0 auto 20rpx;
+      vertical-align: top;
+    }
+    &-title{
+      font-size: 34rpx;
+    }
+    &-des{
+      font-size: 30rpx;
+    }
+  }
+  &-foot{
+    height: 200rpx;
+    background: #fff;
+    .flex();
+    .flex-hvc();
+  }
+  &-btn{
+    width: 480rpx;
+    height: 88rpx;
+    line-height: 88rpx;
+    font-size: 30rpx;
+    color: #E93B3D;
+    background: #fff;
+    border: 1px solid #E93B3D;
+    border-radius: 50rpx;
+    text-align: center;
+  }
+}
+

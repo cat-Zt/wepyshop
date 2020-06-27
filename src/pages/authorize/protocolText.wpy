@@ -1,0 +1,462 @@
+<!--
+【用户服务协议】
+-->
+<style lang="less">
+    @import "protocolText.less";
+</style>
+<template>
+    <form report-submit bindsubmit="getFormId" class="protocol">
+        <view class="protocol-title">小药站-用户服务隐私协议</view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>欢迎使用小药站网站（www.xiaoyaozhan.com）（以下指小药站（广州）科技有限公司简称“本站”）。在您使用本站服务之前，请您务必审慎阅读、充分理解《小药站服务隐私协议》（以下简称“本协议”）的内容。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>《小药站服务隐私协议》是您接受本站相关服务时适用的通用条款。当您阅读并同意本协议全部内容并注册成功，或使用小药站服务时，即表示您已完全接受本协议的全部内容，并与小药站的经营者达成协议，并愿意受其约束。如果您不同意本协议全部内容，亦或存在疑问，请立刻停止用户注册程序，不要使用本站服务。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">一、服务协议条款的确认和接纳</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title2">1. 遵守法律法规</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您必须遵循《中华人民共和国药品管理法》、《医疗器械监督管理条例》、《中华人民共和国合同法》、《中华人民共和国电子签名法》、《药品经营质量管理规范》、《药品流通监督管理办法》、《互联网药品信息服务管理办法》及《互联网药品交易服务审批暂行规定》等有关法律法规。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title2">2. 服务规则重点提示</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>小药站的各项服务的所有权和运作权归本站所有。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您阅读同意本协议并成功注册后，成为本站的正式用户（如果您未满18周岁，只能在父母或监护人的参与下才能使用本站）。此时本站即视为您确认自己具有享受本站服务的权利能力和行为能力，能够独立承担法律责任。本协议条款是处理双方权利义务的契约，始终有效，法律另有强制性规定或双方另有特别约定的，依其规定。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本站保留在中华人民共和国大陆地区法施行之法律允许的范围内独自决定拒绝服务、关闭您的账户、清除或编辑内容或取消订单的权利。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">二、 用户注册条款</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您提供相关资料进行本站注册时，同意提供的注册资料真实、准确、完整、合法有效，本站在审查核对时，如发现资料不合法、不真实、不准确、不详尽的，您需承担因此引起的相应责任及后果，并且本站保留终止您使用本站各项服务的权利。本站声明：用户自行录入所有用户及商品信息，本站不承诺或保证该等信息的真实、准确、完整和有效性。您在决定交易前，应自行判断信息的可靠性。在任何情况下，不得因该等信息的真实、准确、完整或有效问题追究本站的法律责任。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本站提供的所有服务器上的数据（包括但不限于交易记录、商品信息和图片等）全部归本站所有。本站有权决定保留或不保留服务器上的全部或部分数据。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您在本站行为所涉及的真实名称、通信地址、联系电话、电子邮箱等隐私信息，本站在得到您的授权或法律另有规定前，将予以严格保密，不会向外界披露隐私信息。您同意本站有权使用您的注册信息、用户名、密码等信息，登录进入您的注册账户，进行证据保全，包括但不限于公证、见证等。您在使用中若发现任何非法使用账号密码等隐私信息或存在安全漏洞的情况，请立即通知本站并向公安机关报案。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您同意，本站在服务器数据出现异常时，可以将该服务器的数据还原到一定时点，对此本站将不承担任何责任。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>依据国家相关法律法规规章，您同意严格遵守以下义务，若未遵守，本站有权作出独立判断并采取暂停您的用户权限甚至注销您的用户账户等措施，同时您需要对自己的言论和行为承担法律责任：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（1）不得传输或发表：煽动抗拒、破坏宪法和法律、行政法规实施的言论，煽动颠覆国家政权，推翻社会主义制度的言论，煽动分裂国家、破坏国家统一的的言论，煽动民族仇恨、民族歧视、破坏民族团结的言论；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（2）从中国大陆向境外传输资料信息时必须符合中国有关法律法规；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（3）不得利用本网站从事洗钱、窃取商业秘密、窃取个人信息等违法犯罪活动；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（4）不得干扰本网站的正常运转，不得侵入本网站及国家计算机信息系统；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（5）不得传输或发表任何违法犯罪的、骚扰性的、中伤他人的、辱骂性的、恐吓性的、伤害性的、庸俗的、淫秽的、不文明的等信息资料；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（6）不得传输或发表损害国家社会公共利益和涉及国家安全的信息资料或言论；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（7）不得教唆他人从事本条所禁止的行为；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（8）不得利用在本网站注册的账户进行牟利性经营活动（如批发、炒货、转卖）；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（9）不得发布任何侵犯他人著作权、商标权等知识产权及其他合法权利的内容。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">三、商品及订单信息</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本站不特别通知您网站上商品信息的变化，但将尽合理的商业努力保证本站的服务质量，使展示的商品参数、说明、价格、库存等商品信息尽可能准确、详细，但仍可能存在部分信息的滞后性或差错。当您对商品信息感到疑虑的，请您立即通知买卖对方并告诉本站，不要提交订单或取消订单。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>商品信息错误：如果您发现商品信息错误，应与交易对象协商一致后对订单进行调整，如协商无法达成一致的，本站有权（但无义务）取消订单。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>商品缺货：由于市场变化及各种以合理商业努力难以控制的因素的影响，可能有部分订单因缺货无法发货，您同意：买卖双方皆有权在协商后取消该订单。当缺货商品到货时，卖方可通过其它方式通知您，方便您进行购买。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>通知：买卖双方有权通过您在本站填写的相关联系方式，如电子邮箱、手机号等向您发送订单动态、促销活动等信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>订单：作为买方的您下订单时，请仔细确认所购商品的名称、价格、数量、规格、剂型、联系地址、电话、收货人（收货人与您本人不一致时，收货人的行为和意思即视为您的行为和意思，您需承担连带责任。）等信息。成功下订单后，该订单生效。订单信息是计算机信息系统根据您填写的购买需求自动生成的数据，仅是您向卖方发出的合同要约。卖方收到您的订单信息后，只有在销售方将您在订单中订购的商品从仓库实际直接向您发出时（ 以商品发货为标志），方视为您与销售方之间就实际直接向您发出的商品建立了合同关系；如果您在一份订单里订购了多种商品并且销售方只给您发出了部分商品时，您与销售方之间仅就实际直接向您发出的商品建立了合同关系；只有在销售方实际直接向您发出了订单中订购的其他商品时，您和销售方之间就订单中该其他已实际直接向您发出的商品才成立合同关系。您可以随时登陆您在本站注册的账户，查询您的订单状态。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您成功提交订单后，发生了提价、缺货或者网页信息错误等情况，您可以和卖方协商后，取消订单，如协商无法达成一致的，本站有权（但无义务）取消订单。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">四、所有权及知识产权条款</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本协议已经构成《中华人民共和国著作权法》及相关法律规定的著作财产权转让书面协议，其效力及于您在本站上发布的任何受著作权法保护的作品内容，无论该等内容形成于本协议订立前还是本协议订立后。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本站提供的与产品和服务有关的全部信息、资料、技术（包括相关的软件）的著作权、专利权、商标、商业秘密、其他知识产权、所有权或其他权利，均为本站或其权利人所有。未经本站明确的书面许可,任何单位或个人不得以任何方式非法地全部或部分复制、转载、引用、链接、抓取或以其他方式使用本站的信息内容，否则，本站有权追究其法律责任。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您接受本协议全部内容，即表明您主动将您在任何时间段在本站发表的任何形式的信息内容的财产性权利，全部独家且不可撤销地无偿转让给小药站经营者所有，您同意本站有权就任何主体侵权而单独提起诉讼。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">五、免责声明</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本站不对您提供任何保证，包括但不限于适销性、适用性、可靠性、准确性、完整性、无病毒以及无错误的任何默示保证和责任。本站对您以任何方式（包括但不限于包含、经由、连接或下载）从小药站所获得的任何内容信息，均不保证其准确性、完整性、可靠性；您应自行承担使用小药站信息内容所导致的风险，小药站不承担任何责任。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>另外，本站不保证您在本站服务的满意度，不保证服务不会中断；不保证及时性、安全性，错误性，准确及时性。本站不对由于互联网络等设备连接故障，电力故障，罢工，暴乱，骚乱，灾难性天气，爆炸，战争，政府行为，司法行政机关的命令或第三方的不作为而造成的问题承担责任。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>上述责任限制条款将在法律所允许的最大限度内适用，并在本协议终止或您的账户关闭后后仍继续有效。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">六、服务的中断及终止</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本站有权根据经营需要长期或永久终止小药站的服务，而无需提前通知您或任何第三方。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>在下列情况下，本站可以通过注销您的账户的方式单方解除本协议：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（1）在您违反本协议相关规定时，本站有权暂停或终止向您提供服务。如您在本站暂停或终止提供服务后，再一次直接或间接或以他人名义注册为本站用户的，本站有权再次暂停或终止向您提供服务；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（2）如本站通过您提供的信息与您联系时，发现您在注册时填写的电子邮箱已不存在或无法接收电子邮件的，经本站以其他联系方式（如有）通知您，而您在三个工作日内仍未能提供新的有效电子邮箱地址的，本站有权终止向您提供服务；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（3）一经发现您注册信息中的内容是虚假的，本站即有权终止向您提供服务；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（4）本协议修改或更新时，如您表示不愿接受新的服务协议的，本站有权终止向您提供服务；</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>（5）本站认为需终止提供服务的其他情况。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>在您主动或被动注销账户后，本站仍有权利保留注册信息及过往的全部交易行为记录。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">七、法律适用、管辖</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>本协议之效力适用中华人民共和国大陆地区法律，如无相关法律法规，适用通用国际商业惯例和/或行业惯例。如本协议与中华人民共和国法律相违背，则按法律规定重新解释，而其它条款则依旧保持对您的约束力。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>若您与本站就协议的履行产生争议的，经双方协商后将相关争议提交小药站所在地（北京市）相应级别的法院管辖。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>随着经营情况的变化，本站有权随时更改本协议及相关服务规则。改后的协议一旦被张贴在本站上即生效，并代替原来的协议，无需对您进行单独通知。您需在每次登录服务前查看本协议，如若不同意更新的协议内容，您可停止使用本站产品和服务，如继续使用本站产品和服务，即视为同意本协议全部内容。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">八、隐私声明</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们以本隐私声明声明对访问者隐私保护的许诺。有时候我们需要某些信息才能为您提供您请求的服务，本隐私声明解释了这些情况下的数据收集和使用情况。本隐私声明适用于本网站的所有相关服务。在同意小药站服务协议（“协议”）之时，您已经同意我们按照本隐私声明来使用和披露您的个人信息。本隐私声明的全部条款属于该协议的一部份。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>客户信息的获取</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们获取客户信息的主要目的在于向您提供一个顺畅、高效的购物体验，并致力于不断完善和提升您的体验。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们可能获取的客户信息类型包括：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>注册信息（如，用户名、密码或在注册过程中提供的信息）</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>个人或公司联系方式（如，姓名、公司名称、真实地址、电邮地址、电话、手机号码、传真号码）</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>订购信息（如，(i) 订购人和收货人名称、真实地址、电邮地址和电话号码等与订购相关的任何信息，(ii) 在交付文件上的签名，(iii) 小药站帐号及帐号信息，(iv) 为帮助我们提供服务（包括特定服务）而提供给我们的信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>用于您身份识别的信息（如，身份证号码、护照号码、驾驶证号码）。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>指示我们将商品或服务提供给其他人士时提供的该人士的有关信息（如该人士的姓名、电邮地址和电话号码）。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>支付信息（包括但不限于支付详情或在线支付服务信息和账单寄送地址）和财务信息（如，银行账号）。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>其他个人、公司、单位、或社会实体信息</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们可能会就下列各种情况，获得您的客户信息：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您在访问或使用本网站服务时提供的信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>您在与我们的沟通中自动获取的信息：无论您何时与我们沟通，我们接收并储存的信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>从其他来源获取的信息：如您参加我们或我们与合作伙伴组织的任何活动。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>顾客信息的使用</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们可能会利用我们获取的顾客信息：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>向您提供所需要的产品或服务（如，定向采购、货物配送）</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>处理和收取款项</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>就您的要求向您提供咨询服务，或向您做出回应或与您沟通</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>向您提供我们认为您可能会感兴趣的产品或服务</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>为提升我们的服务，联系您进行调研</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>进行数据分析（如，购买行为或趋势分析、市场或顾客调查、财务分析）</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>管理或认可您参加各种活动的资格，如线上或线下活动、优惠或促销活动</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>经营、评估和完善我们的业务（包括开发新产品和服务；管理我们的通信；判断我们的销售、营销和广告效果；分析和强化我们的产品、服务和网站；和开展会计、审计、记账、对账和收集活动）</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>在事先获得您同意的情况下，向您指定的联系人发送信息</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>防止各种违法或犯罪活动和其他法律责任</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>遵守法律规定和我们的政策规则</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>信用卡</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们的一些服务需要付费，我们会合理获取您的信用卡信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>顾客信息的共享、披露与转让</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>客户的信息是我们业务的重要组成部分，我们不会出售或以其他方式共享您的个人信息，但本《隐私声明》中已列明的情况除外。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>合作伙伴：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们可能会与我们的关联公司或合作伙伴（包括但不限于，您通过我们提供的联合登陆方式登陆的其它网站，以下统称“合作伙伴”）共享顾客信息。您可以辨别您的交易何时会涉及我们的合作伙伴，我们会与该合作伙伴分享与这些交易有关的客户信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>第三方服务提供者：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们有可能聘请外部公司或个人代表我们提供某些商品或服务，如：处理订单、递送货物、发送信函或电子邮件、清除客户名单中的重复信息、分析数据、提供市场营销帮助、提供搜索结果和链接（包括付费搜索名单和链接）、处理收/付款事项以及提供客户服务。在该等情况下，我们可能会共享顾客信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>征得您的同意：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>除以上规定及本《隐私声明》已列明的情况外，当您的信息有可能披露给第三方时，您将会得到通知，并且您将有机会选择不与第三方共享此信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>在下列情况下，我们可能还会披露您的相关信息：</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>根据法律、法规或法律程序（如，法院法令或传召出庭令）的规定</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>根据政府部门（如，行政机构、执法机构）的要求</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>为了保护本网站、我们的用户或其他人的权利及其财产或安全，或当我们认为对防止实际损害或财务损失，或调查可疑或实际非法活动来说，披露乃属必要或适当时。这也包括为防止欺诈等违法活动和减少信用风险而与其他公司和组织交换信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们希望您能够理解，在我们发生重组、解散、破产清算等情况时，我们可能会向第三方出售或转让本网站。在该等交易中，作为本网站不可分割一部分，您的个人信息也将被转让给该等第三方，以使该等第三方可以继续在本网站上为您提供服务，对此您应理解并认同。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>未成年人信息的保护</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们非常重视对未成年人（依照现行法律的定义）个人信息的保护。我们不希望未成年人直接使用本网站提供的产品或服务，我们希望未成年人与其监护人一起，或在监护人的监督下使用本网站的产品或服务。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们既不主动寻求、也不希望收到直接来自未成年人的个人信息；但我们无法保证时刻都能准确地了解到访问或使用本网站的访问者年龄。 如果未成年人在无监护人同意的情况下向我们提供了他/她的个人信息，我们建议他/她的监护人与我们联系以删除该信息，并且通知我们以后不再向该未成年人发送任何信息。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>安全</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>我们网站有相应的安全措施来确保我们掌握的信息不丢失，不被滥用和变 造。这些安全措施包括向其它服务器备份数据和对用户密码加密。尽管我们有这些安全措施，但请注意在因特网上不存在“完善的安全措施”。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>其他网站链接</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>为给您提供更多便利和商业信息，本网站可能会包含至其他网站的链接。该等网站的运营商有可能不是我们的关联公司。所链接的网站也可能拥有其自身的隐私政策或声明，所以，我们强烈建议您，在访问任何所链接的网站时查看该等隐私政策或声明。对于非由我们运营之任何网站的内容、对该等网站的任何使用或该等网站的隐私政策，我们概不负责。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>《隐私声明》的更新</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>在中国法律允许的范围内，我们可能会不时更新本《隐私声明》，恕不提前通知。我们将在本网站上醒目位置发布公告，告知您我们《隐私声明》的任何重大变动。</text>
+        </view>
+        <view class="protocol-item">
+            <text selectable class="protocol-item-title1">九、其他规定</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>若本协议中的任何条款存在理解分歧，均优先以本站作出的解释为准。</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>联系我们</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>如果您对本隐私声明或小药站的隐私保护措施以及您在使用中的问题有任何意见和建议请和我们联系：xyzxcx@xiaoyaozhan.com</text>
+        </view>
+        <view class="protocol-item">
+            <text class="protocol-dot"></text>
+            <text selectable>小药站</text>
+        </view>
+    </form>
+</template>
+<script>
+    import wepy from 'wepy';
+    import {lotusAjax} from '../../utils/lotusAjax'
+    import {lotusUtils} from '../../utils/utils'
+
+    export default class protocolText extends wepy.page {
+        config = {
+            navigationBarTitleText: '用户服务协议'
+        };
+        components = {};
+        data = {};
+        methods = {
+            getFormId(e) {
+                lotusUtils.postFormId(e);
+            }
+        };
+
+        onShow() {}
+
+        onLoad(option) {};
+    }
+</script>

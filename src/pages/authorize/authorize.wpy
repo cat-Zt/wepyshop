@@ -1,0 +1,176 @@
+<style lang="less">
+    @import "authorize.less";
+</style>
+<template>
+    <view class="authorize">
+        <view class="authorize-con">
+            <image class="authorize-con-pic" mode="widthFix" src="/images/news@select.png"></image>
+            <view class="authorize-con-title">幻想乡</view>
+            <view class="authorize-con-des">日复一日却不自知</view>
+        </view>
+        <view class="authorize-foot">
+            <!-- bindgetuserinfo 用户点击该按钮时，会返回获取到的用户信息，回调的detail数据与wx.getUserInfo返回的一致，open-type="getUserInfo"时有效 -->
+            <button lang="zh_CN" form-type="submit" class="authorize-btn" open-type="getUserInfo" bindgetuserinfo="authorize" bindtap="isSupport">立即进入</button>
+        </view>
+    </view>
+    <!--喜欢提示-->
+    <!--<collectTip></collectTip>-->
+</template>
+<script>
+/* eslint-disable */
+import wepy from 'wepy'
+import {lotusAjax} from '../../utils/lotusAjax.js'
+import {lotusUtils} from '../../utils/utils'
+// import collectTip from '../../components/collectTip/collectTip'
+// 注册page
+
+export default class authorize extends wepy.page {
+    // 配置*
+  config = {
+    navigationBarTitleText: '欢迎来到幻想乡'
+  };
+  data = {
+    showAllSel: true,
+    opsStr: '',
+    option: {},
+    isFlag: wx.canIUse('button.open-type.getUserInfo'),
+    Code: '',
+    isAgree: true,
+
+    invWxCode: ''
+  };
+  components={
+        // collectTip
+  }
+  methods = {
+    getFormId(e) {
+      lotusUtils.postFormId(e)
+    },
+    agree() {
+      this.isAgree = !this.isAgree
+      this.$apply()
+    },
+    async authorize(e) {
+      console.log('e', e)
+      if (e.detail.userInfo) {
+        this.Code = await this.getCode()
+        const _this = this
+        // 检查微信登录是否过期
+        wx.checkSession({
+          success: function() {
+                        // session_key 未过期，并且在本生命周期一直有效
+                        // console.log('未过期，并且在本生命周期一直有效')
+            _this.login(_this.Code, e.detail)
+          },
+          fail: function() {
+                        // 失败重新获取
+                        // console.log('失败重新获取')
+            _this.getCode().then((Code) => {
+              _this.Code = Code
+              _this.login(Code, e.detail)
+            })
+          }
+        })
+      }
+    },
+        // 判断是否支持button组件
+    isSupport() {
+      if (!this.isFlag) {
+        wepy.showModal({
+          title: '更新提示',
+          content: '微信版本过低，使用旧版本微信，将无法使用一些功能，请及时更新微信！',
+          success: function (res) {
+            if (res.confirm || res.cancel) {
+            }
+          }
+        })
+      }
+    }
+  };
+  // 获取微信登录接口
+  getCode() {
+    return new Promise((resolve, reject) => {
+      wepy.login({
+        success: function (res) {
+          if (res.code) {
+                        // console.log(res.code)
+            return resolve(res.code)
+          }
+        }
+      })
+    })
+  };
+    // 平台注册/登录
+  login(code, data) {
+    // encodeURIComponent() 函数可把字符串作为 URI 组件进行编码。
+    // const EncryptedData = encodeURIComponent(data.encryptedData)
+    // const Iv = encodeURIComponent(data.iv)
+    console.log(code, data)
+    // lotusAjax.fetch('POST', 'https://4e14ccec-abcc-46a7-a4fa-d99bd2a0cdd9.mock.pstmn.io' + '/login', {//
+    //   data: {
+    //     // Iv: Iv,
+    //     // EncryptedData: EncryptedData,
+    //     // 正式开发
+    //     // code: code
+    //     code: '023v4zF71UehJS176OD71vDyF71v4zFD'
+    //     // InvWxDetailCode: this.invWxCode
+    //   }
+    // }).then((response) => {
+    // const result = response.Data
+    const result = {
+      'data': {
+        'jwc_verify': 1,
+        'library_verify': 1,
+        'token': 'jwttoken',
+        'user_type': 0,
+        'verify': 1,
+        'user': '幻想乡'
+      },
+      'msg': '登录成功！',
+      'status': 0
+    }
+    if (result) {
+      console.log(result, wx.getStorageSync('loadPageRoute'))
+      wepy.setStorageSync('userDataMsg', JSON.stringify(result.data.user))
+      wepy.setStorageSync('wxDetailCode', data)
+                /* wepy.redirectTo({
+                    url: '/packageLead/leadPage' + this.opsStr
+                }); */
+
+      if (wx.getStorageSync('loadPageRoute')) {
+        console.log('/' + wx.getStorageSync('loadPageRoute') + this.opsStr)
+        wepy.reLaunch({
+          url: '/' + wx.getStorageSync('loadPageRoute') + this.opsStr
+        })
+      } else {
+        wx.navigateBack({
+          delta: 1
+        })
+      }
+        // 缓存 用户信息
+    }
+    // })
+  };
+  setPageSource(options) {
+    let str = '?'
+    for (let attr in options) {
+      str = str + attr + '=' + options[attr] + '&'
+    }
+    return str.slice(0, str.length - 1)
+  };
+  onLoad(option) {
+    console.log(option)
+    if (option.icode) {
+      this.invWxCode = option.icode
+    }
+//        console.log('authorize:');
+//        console.log(option)
+    this.opsStr = this.setPageSource(option)
+    this.$apply()
+  };
+  async onShow() {
+        /* this.Code = await this.getCode();
+        this.$apply(); */
+  }
+}
+</script>

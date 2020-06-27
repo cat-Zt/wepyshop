@@ -9,6 +9,7 @@
 <script>
 import wepy from 'wepy'
 import lotusSearch from '../../components/search/lotusSearch'
+import {checkUserRegister} from '../../utils/checkUserStatus'
 
 export default class Index extends wepy.page {
   config = {
@@ -25,8 +26,15 @@ export default class Index extends wepy.page {
       })
     }
   };
-  onLoad() {
-    console.log('onLoad')
+  onLoad(option) {
+    // 关闭当前页面，返回上一页面或多级页面。可通过 getCurrentPages 获取当前的页面栈，决定需要返回几层。
+    // 调用页面路由带的参数可以在目标页面的onLoad中获取。
+    let pages = getCurrentPages()
+    let loadPageRoute = pages[0].route
+    console.log('loadPageRoute', loadPageRoute, option)
+    checkUserRegister(loadPageRoute, option, true).then((response) => {
+      console.log('response', response)
+    })
   }
 }
 </script>

@@ -1,0 +1,50 @@
+@import (reference) "../../style/config.less";
+
+@Protocol: protocol;
+.@{Protocol} {
+    display: block;
+    padding: 20rpx;
+    width: 100%;
+    height: 100%;
+    font-size: 24rpx;
+    line-height: 34rpx;
+    text-align: left;
+    .box-sizing();
+    background: #fff;
+    button {
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        &:after {
+            display: none;
+        }
+    }
+    &-title{
+        font-size: 32rpx;
+        line-height: 42rpx;
+        text-align: center;
+    }
+    &-dot{
+        flex-shrink: 0;
+        margin-top: 10rpx;
+        margin-right: 20rpx;
+        width: 10rpx;
+        height: 10rpx;
+        border-radius: 100%;
+        background: #333;
+    }
+    &-item{
+        .flex();
+        align-items: flex-start;
+        margin-top: 10rpx;
+        margin-bottom: 10rpx;
+        &-title1{
+            font-size: 30rpx;
+            line-height: 40rpx;
+        }
+        &-title2{
+            font-size: 28rpx;
+            line-height: 38rpx;
+        }
+    }
+}

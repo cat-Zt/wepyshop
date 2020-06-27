@@ -40,185 +40,183 @@
                 </scroll-view>
             </view>
         </form>
-        <lotusNoData></lotusNoData>
+        <!-- <lotusNoData></lotusNoData>
         <xyzNavBottom></xyzNavBottom>
-        <shoppingLayer></shoppingLayer>
+        <shoppingLayer></shoppingLayer> -->
     </view>
 </template>
 <script>
     import wepy from 'wepy'
     import {lotusAjax} from '../../utils/lotusAjax'
-    import xyzNavBottom from '../../components/navBottom/xyzNavBottom'
-    import shoppingLayer from '../../components/shoppinglayer/shoppingLayer';
-    import lotusNoData from '../../components/noData/lotusNoData'
+    // import xyzNavBottom from '../../components/navBottom/xyzNavBottom'
+    // import shoppingLayer from '../../components/shoppinglayer/shoppingLayer'
+    // import lotusNoData from '../../components/noData/lotusNoData'
     export default class test extends wepy.page {
-        config = {
-            navigationBarTitleText: '分类',
+      config = {
+        navigationBarTitleText: '分类'
+      }
+      components = {
+        // xyzNavBottom,
+        // shoppingLayer,
+        // lotusNoData
+      }
+      data = {
+        scrollHeight: 0,
+        category: [],
+        currentIndex: 0,
+        currentCode: '',
+        cPageIndex: 0,
+        cPageSize: 20,
+        cFlag: true,
+        pageIndex: 0,
+        pageSize: 20,
+        dataList: [],
+        flag: true
+      }
+      methods = {
+        getFormId(e) {
+          lotusUtils.postFormId(e)
+        },
+            // 分类目录
+        categoryBtn(index, code) {
+          this.currentIndex = index
+          this.currentCode = code
+          this.initData()
+          this.getCategoryData(code)
+        },
+            // 加载更多目录
+        loadMoreCategory() {
+          this.getClassifyCategory()
+        },
+            // 加载更多
+        loadMore() {
+          this.getCategoryData(this.currentCode)
+        },
+            // 详情页
+        goToDetail(code) {
+          wx.navigateTo({
+            url: '/pages/drugDataBase/goodsDetail?code=' + code
+          })
+        },
+            // 加入购物车（弹层）
+        clickShoppingCart(item) {
+          const drugMsg = item
+          const drugData = {
+            CustomGoodsName: drugMsg.CustomGoodsName || '', // 自定义商品标题
+            GoodsName: drugMsg.GoodsName,
+            Genericname: drugMsg.Genericname,
+            Spec: drugMsg.Spec,
+            SupplyPriceType: drugMsg.SupplyPriceType, // 价格类型
+            SupplyPrice: (drugMsg.SupplyPrice) / 100, // 单价，已除100的价格
+            PriceArr: drugMsg.PriceList || [], // 阶梯价
+            SupplierCode: drugMsg.SupplierCode, // 供应商编号
+            CatalogDetailCode: drugMsg.CatalogDetailCode, // 商品明细编号
+            Stock: drugMsg.Stock, // 库存
+            IsCheckStock: drugMsg.IsCheckStock, // 是否校验库存
+            MinQty: drugMsg.PurchaseQty, // 起购数
+            GoodsUnit: drugMsg.GoodsUnit || '件', // 单位
+            DrugImg: drugMsg.DrugImg, // 药品封面图片
+            OriginalPris: 0// 阶梯价是否要除100（需要除以100：1，否：0）
+          }
+          this.$invoke('shoppingLayer', 'show', drugData)
         }
-        components = {
-            xyzNavBottom,
-            shoppingLayer,
-            lotusNoData
-        }
-        data = {
-            scrollHeight: 0,
-            category:[],
-            currentIndex:0,
-            currentCode:'',
-            cPageIndex:0,
-            cPageSize:20,
-            cFlag:true,
-            pageIndex:0,
-            pageSize:20,
-            dataList:[],
-            flag:true
-        }
-        methods = {
-            getFormId(e) {
-                lotusUtils.postFormId(e);
-            },
-            //分类目录
-            categoryBtn(index,code){
-                this.currentIndex = index;
-                this.currentCode = code;
-                this.initData();
-                this.getCategoryData(code);
-            },
-            //加载更多目录
-            loadMoreCategory(){
-                this.getClassifyCategory();
-            },
-            //加载更多
-            loadMore(){
-                this.getCategoryData(this.currentCode);
-            },
-            //详情页
-            goToDetail(code){
-              wx.navigateTo({
-                  url:'/pages/drugDataBase/goodsDetail?code='+ code
-              })
-            },
-            //加入购物车（弹层）
-            clickShoppingCart(item){
-                const drugMsg = item;
-                const drugData = {
-                    CustomGoodsName:drugMsg.CustomGoodsName || '',//自定义商品标题
-                    GoodsName:drugMsg.GoodsName,
-                    Genericname:drugMsg.Genericname,
-                    Spec:drugMsg.Spec,
-                    SupplyPriceType:drugMsg.SupplyPriceType,//价格类型
-                    SupplyPrice:(drugMsg.SupplyPrice)/100,//单价，已除100的价格
-                    PriceArr:drugMsg.PriceList || [],//阶梯价
-                    SupplierCode:drugMsg.SupplierCode,//供应商编号
-                    CatalogDetailCode:drugMsg.CatalogDetailCode,//商品明细编号
-                    Stock:drugMsg.Stock,//库存
-                    IsCheckStock:drugMsg.IsCheckStock,//是否校验库存
-                    MinQty:drugMsg.PurchaseQty,//起购数
-                    GoodsUnit:drugMsg.GoodsUnit || '件',//单位
-                    DrugImg:drugMsg.DrugImg,//药品封面图片
-                    OriginalPris:0//阶梯价是否要除100（需要除以100：1，否：0）
-                };
-                this.$invoke('shoppingLayer','show',drugData);
-            },
-        }
-        //获取分类目录
-        getClassifyCategory(){
-            if(this.cFlag){
-                this.cFlag = false;
-                return new Promise((resolve,reject) => {
-                    lotusAjax.fetch("GET",this.$parent.data.apiUrl + 'DistributionBill/GetDisBillList', {
-                        data: {
-                            MybWxDetailCode: wx.getStorageSync('wxDetailCode'),
-                            PageIndex:this.cPageIndex,
-                            PageSize:this.cPageSize
-                        }
-                    }).then((response) => {
-                        const res = response.Data;
-                        if(res && res.length){
-                            this.category = this.category.concat(res);
-                            //翻页判断
-                            if (this.cPageSize <= res.length) {
-                                this.cFlag = true;
-                                this.cPageIndex = this.cPageIndex + 1;
-                            }
-                            this.$apply();
-                            resolve(true);
-                        }
-                        if (this.category.length === 0) {
-                            this.lotusNoData({show:true,isNofixed:true});
-                        } else {
-                            this.lotusNoData({show:false});
-                        }
-
-                    });
-                })
-            }
-        }
-        //获取目录商品
-        getCategoryData(code){
-            if(this.flag){
-                this.flag = false;
-                lotusAjax.fetch("GET",this.$parent.data.apiUrl + 'DistributionBill/GetDisBillDetail', {
-                    data: {
-                        MybWxDetailCode: wx.getStorageSync('wxDetailCode'),
-                        DistributionBillCode:code || this.currentCode,
-                        PageIndex:this.pageIndex,
-                        PageSize:this.pageSize
-                    }
-                }).then((response) => {
-                    let res = response.Data;
-                    if(res){
-                        if(res.GoodsList && res.GoodsList.length){
-                            this.dataList = this.dataList.concat(res.GoodsList);
-                            //翻页判断
-                            if (this.pageSize <= res.GoodsList.length) {
-                                this.flag = true;
-                                this.pageIndex = this.pageIndex + 1;
-                            }
-                        }
-                        this.$apply();
-                    }
-                });
-            }
-
-        }
-        initData(){
-            this.pageIndex = 0;
-            this.dataList = [];
-            this.flag = true;
-        }
-        //获取dom信息
-        getDomInfor(obj) {
-            const _this = this;
-            return new Promise((resolve,reject) => {
-                wepy.createSelectorQuery().select(obj).boundingClientRect(function (rect) {
-                    resolve(rect.height);
-                }).exec();
+      }
+        // 获取分类目录
+      getClassifyCategory() {
+        if (this.cFlag) {
+          this.cFlag = false
+          return new Promise((resolve, reject) => {
+            lotusAjax.fetch('GET', this.$parent.data.apiUrl + 'DistributionBill/GetDisBillList', {
+              data: {
+                MybWxDetailCode: wx.getStorageSync('wxDetailCode'),
+                PageIndex: this.cPageIndex,
+                PageSize: this.cPageSize
+              }
+            }).then((response) => {
+              const res = response.Data
+              if (res && res.length) {
+                this.category = this.category.concat(res)
+                        // 翻页判断
+                if (this.cPageSize <= res.length) {
+                  this.cFlag = true
+                  this.cPageIndex = this.cPageIndex + 1
+                }
+                this.$apply()
+                resolve(true)
+              }
+              if (this.category.length === 0) {
+                this.lotusNoData({show: true, isNofixed: true})
+              } else {
+                this.lotusNoData({show: false})
+              }
             })
+          })
         }
-        lotusNoData(data) {
-            this.$invoke('lotusNoData', 'init', data);
-        }
-
-        async onLoad() {
-            const _this = this;
-            const topH = await this.getDomInfor('.classify-search');
-            const bottomH = await this.getDomInfor('.xyz-nav-bottom');
-            const query = wx.createSelectorQuery();
-            query.select('#getHeight').boundingClientRect()
-            query.exec(function (res) {
-                //兼容有tabBar
-                const height = res[0].height;//页面的可用高度
-                _this.scrollHeight = height - topH - bottomH;
-                _this.$apply();
-            })
-            const isHasCategory = await this.getClassifyCategory();
-            if(isHasCategory){
-                this.getCategoryData(this.category[0].DistributionBillCode);
+      }
+        // 获取目录商品
+      getCategoryData(code) {
+        if (this.flag) {
+          this.flag = false
+          lotusAjax.fetch('GET', this.$parent.data.apiUrl + 'DistributionBill/GetDisBillDetail', {
+            data: {
+              MybWxDetailCode: wx.getStorageSync('wxDetailCode'),
+              DistributionBillCode: code || this.currentCode,
+              PageIndex: this.pageIndex,
+              PageSize: this.pageSize
             }
+          }).then((response) => {
+            let res = response.Data
+            if (res) {
+              if (res.GoodsList && res.GoodsList.length) {
+                this.dataList = this.dataList.concat(res.GoodsList)
+                        // 翻页判断
+                if (this.pageSize <= res.GoodsList.length) {
+                  this.flag = true
+                  this.pageIndex = this.pageIndex + 1
+                }
+              }
+              this.$apply()
+            }
+          })
         }
+      }
+      initData() {
+        this.pageIndex = 0
+        this.dataList = []
+        this.flag = true
+      }
+        // 获取dom信息
+      getDomInfor(obj) {
+        const _this = this
+        return new Promise((resolve, reject) => {
+          wepy.createSelectorQuery().select(obj).boundingClientRect(function (rect) {
+            resolve(rect.height)
+          }).exec()
+        })
+      }
+      lotusNoData(data) {
+        this.$invoke('lotusNoData', 'init', data)
+      }
 
-        onShow() {
+      async onLoad() {
+        const _this = this
+        const topH = await this.getDomInfor('.classify-search')
+        const bottomH = await this.getDomInfor('.xyz-nav-bottom')
+        const query = wx.createSelectorQuery()
+        query.select('#getHeight').boundingClientRect()
+        query.exec(function (res) {
+                // 兼容有tabBar
+          const height = res[0].height// 页面的可用高度
+          _this.scrollHeight = height - topH - bottomH
+          _this.$apply()
+        })
+        const isHasCategory = await this.getClassifyCategory()
+        if (isHasCategory) {
+          this.getCategoryData(this.category[0].DistributionBillCode)
         }
+      }
+
+      onShow() {
+      }
     }
 </script>
