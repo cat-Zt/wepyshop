@@ -281,7 +281,7 @@ export default class searchGoods extends wepy.page {
           let res = response.data
           console.log('res', res)
           if (res && res.length) {
-            this.dataList = []
+            this.dataList = this.dataList.concat(res)
             // 翻页判断
             if (this.pageSize <= res.length) {
               // 赋值
