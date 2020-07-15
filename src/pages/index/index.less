@@ -1,0 +1,114 @@
+@import (reference) "../../style/config.less";
+@index: functionalZone;
+@base-color: #f06292;
+@white: #fff;
+@bg-color: #f8f8f5;
+@black: #555;
+@btn-color: linear-gradient(90deg, @base-color, #ed5a65);
+.@{index} {
+    // 轮播图
+    &-container {
+        position: relative;
+        &-swiper {
+            height: 300rpx;
+            &-img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+        &-dots {
+            position: absolute;
+            right: 40rpx;
+            bottom: 65rpx;
+            display: flex;
+            justify-content: center;
+            &-dot {
+                margin: 0 10rpx;
+                width: 28rpx;
+                height: 28rpx;
+                background: #fff;
+                border-radius: 50%;
+                transition: all .6s;
+                font: 300 18rpx/28rpx "microsoft yahei";
+                text-align: center;
+            }
+            &-dot.active {
+                background: #f80;
+                color:#fff;
+            }
+        }
+    }
+    // 功能区
+    &-func {
+        background: #fff;
+        margin: 20rpx;
+        margin-top: -40rpx;
+        position: relative;
+        border-radius: 10rpx;
+        box-shadow: 0rpx 4rpx 10rpx #ddd;
+        z-index: 999;
+        &-row {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            .login {
+                &.no-verify {
+                  .iconfont {
+                    background: #ccc !important;
+                  }
+                }
+              }
+        }
+        &-mview {
+            padding-top: 30rpx;
+            // 控制每行图标数目
+            width: 20%; // border-bottom: 1px solid #eee;
+        }
+        &-iconBtn {
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-content: space-between;
+            flex-wrap: wrap;
+            .icon {
+                @size: 80rpx;
+                width: @size;
+                height: @size;
+            }
+            .text {
+                width: 100%;
+                display: block;
+                margin-top: 2rpx;
+                font-size: 28rpx;
+            }
+        }
+    }
+    .swiper {
+        width: 100%;
+        z-index: 99;
+        top: 0;
+        swiper-item {
+          width: 100%;
+        }
+        image {
+          z-index: 30;
+          width: 100%;
+        }
+      }
+    .ecard {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: @base-color;
+        font-size: 70rpx;
+        height: 150rpx;
+        border-bottom: 2rpx dashed #fff;
+      }
+    .ad {
+        margin: 20rpx;
+        ad {
+          border-radius: 8rpx;
+        }
+      }
+}

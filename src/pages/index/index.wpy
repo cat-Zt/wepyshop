@@ -1,28 +1,98 @@
 <style lang="less">
+@import 'index.less';
 </style>
 <template>
-  <view class="container">
+  <view class="functionalZone">
     <lotusSearch searchBtnTxt="搜索商品" type="btn" @searchTabClick.user="searchTabClick"></lotusSearch>
+    <!-- 轮播图 -->
+    <view>
+      <view class="functionalZone-container">
+        <swiper autoplay="auto" interval="5000" duration="500" current="{{swiperCurrent}}" bindchange="swiperChange" class="functionalZone-container-swiper">
+          <block wx:for="{{slider}}" wx:key="unique">
+            <swiper-item data-id="{{item.id}}" data-url="{{item.linkUrl}}">
+              <image src="{{item.picUrl}}" class="functionalZone-container-swiper-img"></image>
+            </swiper-item>
+          </block>
+        </swiper>
+        <view class="functionalZone-container-dots">
+          <block wx:for="{{slider}}" wx:key="unique">
+            <view class="functionalZone-container-dots-dot{{index == swiperCurrent ? ' active' : ''}}" bindtap="chuangEvent" id="{{index}}">{{index+1}}</view>
+          </block>
+        </view>
+      </view>
+    </view>
+    <!-- 功能区 -->
+    <view class="functionalZone-func">
+      <view class="functionalZone-func-row">
+        <repeat for="{{moduleData}}" item="item" key="index">
+          <mview @mtap.user="toModule" class="functionalZone-func-mview {{item.type}} {{verify === 1 ? '' : 'no-verify'}}" :arg.sync="item">
+            <view class="functionalZone-func-iconBtn" slot="content">
+              <image class="icon" src="../../images/index/{{item.icon}}.svg"></image>
+              <text class="text">{{item.name}}</text>
+            </view>
+          </mview>
+        </repeat>
+      </view>
+    </view>
   </view>
 </template>
 
 <script>
 import wepy from 'wepy'
 import lotusSearch from '../../components/search/lotusSearch'
+import mview from '../../components/card/mview'
 import {checkUserRegister} from '../../utils/checkUserStatus'
+import index from './index/index.js'
 
 export default class Index extends wepy.page {
   config = {
-    navigationBarTitleText: '首页'
+    navigationBarTitleText: '幻想乡'
+  };
+  data = {
+    slider: [
+      {
+        picUrl: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+        id: 1,
+        linkUrl: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+      },
+      {
+        picUrl: 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+        id: 2,
+        linkUrl: 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+      },
+      {
+        picUrl: 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640',
+        id: 3,
+        linkUrl: 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640',
+      }
+    ],
+    moduleData: index.funcs,
+    swiperCurrent: 0
   };
   components = {
-    lotusSearch: lotusSearch
+    lotusSearch: lotusSearch,
+    mview: mview
   };
   methods = {
     searchTabClick() {
-      console.log(111)
       wx.navigateTo({
         url: '/pages/classify/searchGoods'
+      })
+    },
+    //轮播图的切换事件
+    swiperChange(e){
+    //只要把切换后当前的index传给<swiper>组件的current属性即可
+      this.swiperCurrent = e.detail.current;
+    },
+    //点击指示点切换
+    chuangEvent(e){
+      this.swiperCurrent = e.currentTarget.id;
+    },
+    // 功能区跳转
+    toModule(item) {
+      console.log(item)
+      wx.navigateTo({
+        url: `/pages/classify/${item.url}`
       })
     }
   };
