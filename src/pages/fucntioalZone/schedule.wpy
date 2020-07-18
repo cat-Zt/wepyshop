@@ -6,7 +6,7 @@
     <view class="wrapper">
         <!-- 编辑心情按钮 -->
         <view class="wrapper-navigator" bindtap="goDiary">
-            <i class="iconfont #icon-htmal5icon16"></i>
+            <i class="icon iconfont #icon-htmal5icon16">编辑城市</i>
         </view>
         <view class="wrapper-container" id="canvas-wrapper" style="padding-top: {{paddingTop}}px">
                 <view class="wrapper-container-now">
@@ -62,13 +62,13 @@
                     <view class="forecast-day">
                         <text>明天</text>
                         <i class="icon iconfont #icon-{{tomorrow.icon}}"></i>
-                        <text>{{tomorrow.wea}}</text>
+                        <text class="two">{{tomorrow.wea}}</text>
                         <text>{{tomorrow.temStr}}</text>
                     </view>
                     <view class="forecast-day">
                         <text>后天</text>
                         <i class="icon iconfont #icon-{{afterDay.icon}}"></i>
-                        <text>{{afterDay.wea}}</text>
+                        <text class="two">{{afterDay.wea}}</text>
                         <text>{{afterDay.temStr}}</text>
                     </view>
                 </view>
@@ -169,7 +169,12 @@ export default class Index extends wepy.page {
     city: '佛山'
   };
   methods = {
-    
+    goDiary: function () {
+      //关闭本页去切换城市，返回时就可以重新初始化定位信息哦
+      wx.reLaunch({
+        url: '../changeCity/changeCity'
+      });
+    },
   };
   // 获取位置
   getLocation() {
@@ -235,37 +240,6 @@ export default class Index extends wepy.page {
     }
     // 使用腾讯地图获取当前的位置信息回显
     this.getAddress(lat, lon, name);
-  };
-  // 取缓存的数据展示
-  setDataFromCache() {
-    wx.getStorage({
-      key: 'defaultData',
-      success: ({ data }) => {
-        if (data && !isUpdate) {
-          // 存在并且没有获取数据成功，那么可以给首屏赋值上次数据
-          const {
-            current,
-            backgroundColor,
-            backgroundImage,
-            today,
-            tomorrow,
-            address,
-            tips,
-            hourlyData
-          } = data;
-          this.setData({
-            current,
-            backgroundColor,
-            backgroundImage,
-            today,
-            tomorrow,
-            address,
-            tips,
-            hourlyData
-          });
-        }
-      }
-    });
   };
   // 获取其他的数据(天气/心情/空气质量)
   getWeatherData(city) {
@@ -370,28 +344,17 @@ export default class Index extends wepy.page {
         this.$apply()
       }
     });
-    const pages = getCurrentPages(); //获取加载的页面
-    const currentPage = pages[pages.length - 1]; //获取当前页面的对象
-    const query = currentPage.options;
-    console.log(query)
-    if (query && query.address && query.lat && query.lon) {
-      let { province, city, county, address, lat, lon } = query;
-      //   this.setData(
-      //     {
-      //       city,
-      //       province,
-      //       county,
-      //       address,
-      //       lat,
-      //       lon
-      //     },
-      //     () => {
-      //       this.getWeatherData()
-      //     }
-      //   )
+    const defaultCity = this.$parent.globalData.defaultCity;
+    if (defaultCity) {
+      this.address = this.$parent.globalData.defaultCity + this.$parent.globalData.defaultCounty;
+      this.$apply();
+      const cityArray = defaultCity.split("");
+      cityArray.splice(cityArray.length-1,1);
+      const cityStr = cityArray.join('');
+      // 获取天气
+      this.getWeatherData(cityStr);
     } else {
       // 获取缓存数据
-      that.setDataFromCache();
       that.getLocation();
     }
   }

@@ -19,7 +19,8 @@ export default class extends wepy.app {
       'pages/my/my',
       'pages/classify/searchGoods', // 商品搜索,
       'pages/authorize/authorize', // 授权页面
-      'pages/fucntioalZone/schedule' // 天气预报
+      'pages/fucntioalZone/schedule', // 天气预报
+      'pages/changeCity/changeCity'
     ],
     window: {
       navigationBarBackgroundColor: '#ffffff',

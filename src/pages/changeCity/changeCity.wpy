@@ -1,0 +1,312 @@
+<style lang="less">
+@import './changeCity.less';
+</style>
+<template>
+    <view class="changeCity">
+        <!--输入框-->
+        <view class="input">
+            <input bindinput="bindKeyInput" bindblur="bindBlur" placeholder="输入城市名或拼音查询" placeholder-style="font-size: 30rpx" value="{{inputName}}"></input>
+        </view>
+        <view class="container-inner">
+            <!-- 右侧字母索引条 -->
+            <view class="searchLetter touchClass">
+                <view wx:for="{{searchLetter}}" style="color:#2a579a;font-size:20rpx;" wx:key="*this" data-letter="{{item.name}}" catchtouchend="clickLetter">{{item.name}}</view>
+                <view class="thishotText" bindtap="hotCity">
+                    <view style="margin-top:0;">顶部</view>
+                    <view style="margin-top:0;">↑↑</view>
+                </view>
+            </view>
+            <!-- 中间主体部分 -->
+            <view class="container">
+                <!-- 屏幕中间字母提示方块 -->
+                <block wx:if="{{isShowLetter}}">
+                <view class="showSlectedLetter">
+                    {{toastShowLetter}}
+                </view>
+                </block>
+                <scroll-view scroll-y="true" style="height:{{winHeight}}px" scroll-into-view="{{scrollTopId}}" scroll-top="{{scrollTop}}">
+                    <!-- 匹配结果列表 -->
+                    <ul class="ul">
+                        <li wx:for="{{completeList}}" wx:key="*this" bindtap="bindCity" data-city="{{item.city}}" data-code="{{item.code}}" class="li">{{item.city}}</li>
+                    </ul>
+                    <view wx:if="{{condition}}" class="hotcity-common">选择区县</view>
+                    <view wx:if="{{condition}}" class="county">
+                        <block class="hotCity" wx:for-items="{{countyList}}" wx:key="id">
+                        <view class="weui-grid" style="margin-right: 16rpx;" data-code="{{item.id}}" data-city="{{item.fullname}}" bindtap="bindCounty">
+                            <view class="weui-grid__label">{{item.fullname}}</view>
+                        </view>
+                        </block>
+                    </view>
+                    <view class="selectCity">
+                        <view class="hotcity-common reset" bindtap="reGetLocation">
+                            <icon type="circle" class="search-img" size="13"/>
+                            <text>重新定位</text>
+                        </view>
+                        <view class="thisCityName" data-city="{{city}}" data-code="{{currentCityCode}}">{{city}}{{county}}</view>
+                        <view class="hotcity-common">热门城市</view>
+                        <view class="weui-grids">
+                            <view class="weui-grid" data-code="110000" data-city="北京市" bindtap="bindCity">
+                                <view class="weui-grid__label">北京市</view>
+                            </view>
+                            <view class="weui-grid" data-code="310000" data-city="上海市" bindtap="bindCity">
+                                <view class="weui-grid__label">上海市</view>
+                            </view>
+                            <view class="weui-grid" data-code="440100" data-city="广州市" bindtap="bindCity">
+                                <view class="weui-grid__label">广州市</view>
+                            </view>
+                        </view>
+                        <view class="weui-grids">
+                            <view class="weui-grid" data-code="440300" data-city="深圳市" bindtap="bindCity">
+                                <view class="weui-grid__label">深圳市</view>
+                            </view>
+                            <view class="weui-grid" data-code="330100" data-city="杭州市" bindtap="bindCity">
+                                <view class="weui-grid__label">杭州市</view>
+                            </view>
+                            <view class="weui-grid" data-code="320100" data-city="南京市" bindtap="bindCity">
+                                <view class="weui-grid__label">南京市</view>
+                            </view>
+                        </view>
+                        <view class="weui-grids">
+                            <view class="weui-grid" data-code="420100" data-city="武汉市" bindtap="bindCity">
+                                <view class="weui-grid__label">武汉市</view>
+                            </view>
+                            <view class="weui-grid" data-code="120000" data-city="天津市" bindtap="bindCity">
+                                <view class="weui-grid__label">天津市</view>
+                            </view>
+                            <view class="weui-grid" data-code="610100" data-city="西安市" bindtap="bindCity">
+                                <view class="weui-grid__label">西安市</view>
+                            </view>
+                        </view>
+                    </view>
+                    <!-- 城市列表 -->
+                    <view class="selection" wx:for="{{cityList}}" wx:key="initial">
+                        <view class="item_letter" id="{{item.initial}}">{{item.initial}}</view>
+                        <view class="item_city" wx:for="{{item.cityInfo}}" wx:for-item="ct" wx:key="id" data-code="{{ct.code}}" data-city="{{ct.city}}" bindtap="bindCity">
+                            {{ct.city}}
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+    </view>
+</template>
+<script>
+import wepy from 'wepy';
+import city from './util.js';
+export default class Index extends wepy.page {
+  config = {
+    navigationBarTitleText: '切换城市'
+  };
+  data = {
+    searchLetter: [],
+    showLetter: "",
+    winHeight: 0,
+    cityList: [],
+    isShowLetter: false,
+    scrollTop: -1,//置顶高度
+    scrollTopId: '',//置顶id
+    city: "定位中",
+    currentCityCode: '',
+    hotcityList: [{ cityCode: 110000, city: '北京市' }, { cityCode: 310000, city: '上海市' }, { cityCode: 440100, city: '广州市' }, { cityCode: 440300, city: '深圳市' }, { cityCode: 330100, city: '杭州市' }, { cityCode: 320100, city: '南京市' }, { cityCode: 420100, city: '武汉市' }, { cityCode: 120000, city: '天津市' }, { cityCode: 610100, city: '西安市' },],
+    commonCityList: [{ cityCode: 110000, city: '北京市' }, { cityCode: 310000, city: '上海市' }],
+    countyList: [{ cityCode: 110000, county: 'A区' }, { cityCode: 310000, county: 'B区' }, { cityCode: 440100, county: 'C区' }, { cityCode: 440300, county: 'D区' }, { cityCode: 330100, county: 'E县' }, { cityCode: 320100, county: 'F县' }, { cityCode: 420100, county: 'G县' }],
+    inputName: '',
+    completeList: [],
+    county: '',
+    condition: false,
+  };
+  methods = {
+    //点击热门城市回到顶部
+    hotCity() {
+        console.log(this.scrollTop)
+        this.scrollTop = 0;
+        this.$apply();
+    }
+  };
+    //选择城市
+  bindCity(e) {
+    console.log(e)
+    this.condition = true; //选择区县修改为true
+    this.city = e.currentTarget.dataset.city;
+    this.currentCityCode = e.currentTarget.dataset.code;
+    this.scrollTop = 0;
+    this.completeList = [];
+    this.selectCounty(); //获取当前城市的区名称
+    this.$apply();
+    this.$parent.globalData.defaultCity = this.city;
+    this.$parent.globalData.defaultCounty = '';
+  };
+  //设置当前区域
+  bindCounty(e) {
+    this.county = e.currentTarget.dataset.city;
+    this.$parent.globalData.defaultCounty = this.county;
+    this.$apply();
+    //关闭本页去切换城市，返回时就可以重新初始化定位信息哦
+    wx.reLaunch({
+        url: '../fucntioalZone/schedule'
+    });
+  };
+  onLoad(options) {
+    const searchLetter = city.searchLetter;
+    const cityList = city.cityList();
+    const sysInfo = wx.getSystemInfoSync();
+    const winHeight = sysInfo.windowHeight;
+    const itemH = winHeight / searchLetter.length;
+    let tempArr = [];
+    searchLetter.map(
+      (item, index) => {
+        let temp = {};
+        temp.name = item;
+        temp.tHeight = index * itemH;
+        temp.bHeight = (index + 1) * itemH;
+        tempArr.push(temp)
+      }
+    );
+    this.searchLetter = tempArr;
+    this.cityList = cityList;
+    this.itemH = itemH;
+    this.winHeight = winHeight;
+    this.$apply();
+    // 定位当前城市
+    this.getLocation();
+  };
+  //定位当前城市的函数
+  getLocation() {
+    this.county = '';
+    this.$apply();
+    const that = this;
+    wx.getLocation({
+      type: 'wgs84',
+      success: function (res) {
+        //当前的经度和纬度
+        let latitude = res.latitude
+        let longitude = res.longitude
+        wx.request({
+          url: `https://apis.map.qq.com/ws/geocoder/v1/?location=${latitude},${longitude}&key=4WEBZ-TVM6P-367DO-V4444-IJ7R5-PIFFC`,
+          success: res => {
+            that.city = res.data.result.ad_info.city;
+            that.currentCityCode = res.data.result.ad_info.adcode;
+            that.county = res.data.result.ad_info.district;
+            that.$apply();
+          }
+        })
+      }
+    })
+  };
+  //获取当前选择城市的区县
+  selectCounty() {
+    let code = this.currentCityCode
+    const that = this;
+    wx.request({
+      url: `https://apis.map.qq.com/ws/district/v1/getchildren?&id=${code}&key=4WEBZ-TVM6P-367DO-V4444-IJ7R5-PIFFC`,
+      success: function (res) {
+       that.countyList =res.data.result[0];
+       that.$apply();
+      },
+      fail: function () {
+        console.log("请求区县失败，请重试");
+      }
+    })
+  };
+  //重新定位城市
+  reGetLocation() {
+    this.$parent.globalData.defaultCity = this.city;
+    this.$parent.globalData.defaultCounty = this.county;
+    //返回天气预报
+    wx.reLaunch({
+        url: '../fucntioalZone/schedule'
+    });
+  };
+  bindBlur(e) {
+      this.inputName = '';
+      this.$apply();
+  };
+  //获取查询框输入，并执行自动查询方法
+  bindKeyInput(e) {
+    this.inputName = e.detail.value;
+    this.$apply();
+    this.auto()
+  };
+  auto() {
+    let inputSd = this.inputName.trim()
+    let sd = inputSd.toLowerCase()
+    let num = sd.length
+    const cityList = city.cityObjs
+    let finalCityList = []
+    let temp = cityList.filter(
+      item => {
+        let text = item.short.slice(0, num).toLowerCase()
+        return (text && text == sd)
+      }
+    )
+    //在城市数据中，添加简拼到“shorter”属性，就可以实现简拼搜索
+    let tempShorter = cityList.filter(
+      itemShorter => {
+        if (itemShorter.shorter) {
+          let textShorter = itemShorter.shorter.slice(0, num).toLowerCase()
+          return (textShorter && textShorter == sd)
+        }
+        return
+      }
+    )
+    let tempChinese = cityList.filter(
+      itemChinese => {
+        let textChinese = itemChinese.city.slice(0, num)
+        return (textChinese && textChinese == sd)
+      }
+    )
+    if (temp[0]) {
+      temp.map(
+        item => {
+          let testObj = {};
+          testObj.city = item.city
+          testObj.code = item.code
+          finalCityList.push(testObj)
+        }
+      )
+      this.completeList =finalCityList;
+      this.$apply();
+    } else if (tempShorter[0]) {
+      tempShorter.map(
+        item => {
+          let testObj = {};
+          testObj.city = item.city
+          testObj.code = item.code
+          finalCityList.push(testObj)
+        }
+      );
+      this.completeList =finalCityList;
+      this.$apply();
+    } else if (tempChinese[0]) {
+      tempChinese.map(
+        item => {
+          let testObj = {};
+          testObj.city = item.city
+          testObj.code = item.code
+          finalCityList.push(testObj)
+        })
+      this.completeList =finalCityList;
+      this.$apply();
+    } else {
+      return
+    };
+  }
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage() {
+    return {
+      title: '很赞的全国城市切换器~',
+      desc: '分享个小程序，希望你喜欢☺️~',
+      success: function (res) {
+        // 转发成功
+        wx.showToast({
+          title: "分享成功",
+          duration: 1000,
+          icon: "success"
+        })
+      }
+    }
+  }
+}
+</script>

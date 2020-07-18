@@ -15,16 +15,19 @@
   background-image: linear-gradient(#005e91, #4285f4);
     // 编辑心情按钮
     &-navigator {
-        color: white;
-        background: rgba(0, 0, 0, 0.1);
-        position: absolute;
-        right: 0;
-        top: 480rpx;
-        width: 50rpx;
-        border-radius: 20rpx 0 0 20rpx;
-        padding: 10rpx 20rpx;
-        z-index: 9999999;
-        
+      color: white;
+      background: rgba(0,0,0,0.1);
+      position: absolute;
+      right: 0;
+      top: 500rpx;
+      border-radius: 20rpx 0 0 20rpx;
+      padding: 10rpx 20rpx;
+      z-index: 9999999;
+      display: flex;
+      align-items: center;
+      .icon {
+        font-size: 25rpx;
+      }
     }
     // 顶部
     &-container {
@@ -154,9 +157,18 @@
             border-bottom: 1rpx solid #aacce7;
             padding: 30rpx 0;
             .styleDisplay();
-            justify-content: space-around;
             align-items: center;
+            text:nth-child(1) {
+              width: 20%;
+              text-align: center;
+            }
+            .two {
+              width: 30%;
+              text-align: center;
+            }
             .icon {
+              width: 20%;
+              text-align: center;
               font-size: 40rpx;
             }
           }

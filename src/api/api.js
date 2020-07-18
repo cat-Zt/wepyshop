@@ -1,7 +1,7 @@
 // import {SERVER_URL} from '../config'
 import Promise from './bluebird'
 
-const QQ_MAP_KEY = 'ZVXBZ-xxxxxxxxxxxxxxxxxxx-RCSVK-LQFU6'
+const QQ_MAP_KEY = '4WEBZ-TVM6P-367DO-V4444-IJ7R5-PIFFC'
 
 wx.cloud.init({
   env: 'tianqi-xxxxx'
