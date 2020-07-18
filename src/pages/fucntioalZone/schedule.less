@@ -1,0 +1,263 @@
+@import (reference) "../../style/config.less";
+@import '../../components/icon/iconfont.less';
+.styleDisplay() {
+  display: box;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+@wrapper: wrapper;
+.@{wrapper} {
+  font-family: helvetica-ultra-light;
+  background-image: linear-gradient(#005e91, #4285f4);
+    // 编辑心情按钮
+    &-navigator {
+        color: white;
+        background: rgba(0, 0, 0, 0.1);
+        position: absolute;
+        right: 0;
+        top: 480rpx;
+        width: 50rpx;
+        border-radius: 20rpx 0 0 20rpx;
+        padding: 10rpx 20rpx;
+        z-index: 9999999;
+        
+    }
+    // 顶部
+    &-container {
+        margin-bottom: 20rpx;
+        max-width: 750rpx;
+        box-sizing: border-box;
+        color: #fff;
+        &-now {
+          height: 560rpx;
+          overflow: hidden;
+          position: relative;
+          color: #fff;
+          // 地址
+          .location {
+              display: flex;
+              justify-content: center;
+              padding: 0 200rpx;
+              .icon {
+                margin-right: 4rpx;
+              }
+              .text {
+                font-size: 26rpx;
+                display: inline-block;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+          }
+          // 空气质量
+          .airQuality {
+            position: absolute;
+            top: auto;
+            left: 20rpx;
+            height: 28rpx;
+            line-height: 28rpx;
+            padding: 16rpx 20rpx;
+            border-radius: 8rpx;
+            color: #fff;
+            background: rgba(0, 0, 0, .1);
+            font-size: 24rpx;
+            .circle {
+              content: '';
+              display: inline-block;
+              width: 8rpx;
+              height: 28rpx;
+              margin-right: 14rpx;
+              vertical-align: middle;
+              border-radius: 4rpx;
+            }
+            .value {
+              vertical-align: middle;
+            }
+          }
+          // 天气详情
+          .weather-detail {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            transform: translateY(-50%);
+            line-height: 1;
+            .styleDisplay();
+             justify-content: space-around;
+             align-items: center;
+            .icon {
+              font-size: 200rpx;
+            }
+            .detail-bottom {
+              .styleDisplay();
+              flex-direction: column;
+              align-items: center;
+            }
+            .bottom-description {
+              margin-bottom: 30rpx;
+              font-size: 80rpx;
+            }
+            .bottom-TH {
+              .styleDisplay();
+            }
+            .bottom-temperatures {
+              margin-right: 30rpx;
+            }
+            .bottom-humidity {
+              margin-left: 30rpx;
+            }
+            .bottom-temperatures, .bottom-humidity {
+              .styleDisplay();
+              flex-direction: column;
+              font-size: 50rpx;
+            }
+            .bottom-temperatures .temperaturestext, .bottom-humidity .temperaturestext {
+              margin-bottom: 10rpx;
+            }
+          }
+        }
+        // 风速等
+        &-wind {
+          background: rgba(0, 0, 0, 0.1);
+          padding: 40rpx 0;
+          .styleDisplay();
+          justify-content: space-around;
+          font-family: helvetica-ultra-light;
+          .wind-detail {
+            text-align: center;
+            width: 24%;
+            border-right: 1rpx solid #aacce7;
+            .styleDisplay();
+            flex-direction: column;
+            text:nth-child(1) {
+              font-size: 35rpx;
+            }
+            text:nth-child(2) {
+              font-size: 30rpx;
+              margin-top: 10rpx;
+            }
+          }
+          view:nth-child(4) {
+            border-right: none;
+          }
+        }
+        // 三天预报
+        &-forecast {
+          margin: 60rpx 0;
+          .forecast-day {
+            background: rgba(0, 0, 0, .1);
+            border-top: 1rpx solid #aacce7;
+            border-bottom: 1rpx solid #aacce7;
+            padding: 30rpx 0;
+            .styleDisplay();
+            justify-content: space-around;
+            align-items: center;
+            .icon {
+              font-size: 40rpx;
+            }
+          }
+          view:nth-child(2) {
+            border-top: none;
+          }
+        }
+    }
+    // 小时预报
+    &-hourly {
+      background: rgba(0, 0, 0, .1);
+      margin-bottom: 20rpx;
+      max-width: 750rpx;
+      box-sizing: border-box;
+      color: #fff;
+      padding: 40rpx 0;
+      .hourly-top {
+        height: 70rpx;
+        .styleDisplay();
+        justify-content: center;
+        align-items: center;
+      }
+      .hourly-bottom {
+        overflow: hidden;
+        width: 100%;
+        .scrollX {
+          display: flex;
+          justify-content: space-around;
+          position: relative;
+          width: 2500rpx;
+          padding: 20rpx 0;
+          height: 150rpx;
+        }
+        .item {
+          .styleDisplay();
+          flex-direction: column;
+          justify-content: space-around;
+          align-items: center;
+          width: 116rpx;
+        }
+        .time,.temp {
+          line-height: 24rpx;
+          height: 28rpx;
+          position: relative;
+        }
+        .icon {
+          font-size: 48rpx;
+          margin: 20rpx auto 30rpx;
+        }
+      }
+    }
+    // 生活方式
+    &-life {
+      background: rgba(0, 0, 0, .1);
+      overflow: hidden;
+      width: 100%;
+      // 生活指数
+      .life-style {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        .item {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          width: 33%;
+          height: 188rpx;
+          border-right: 2rpx solid rgba(255, 255, 255, .1);
+          border-bottom: 2rpx solid rgba(255, 255, 255, .1);
+          box-sizing: border-box;
+        }
+        .content {
+          font-size: 36rpx;
+          margin-top: 20rpx;
+          color: #fff;
+        }
+        .title {
+          .icon {
+            margin-right: 10rpx;
+            margin-top: -2rpx;
+          }
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          opacity: 0.7;
+          font-size: 24rpx;
+          height: 26rpx;
+        }
+      }
+    }
+    // 
+    &-soure {
+      opacity: .6;
+      color: #fff;
+      padding: 24rpx;
+      text-align: center;
+      line-height: 1;
+      white-space: nowrap;
+      font-size: 35rpx;
+    }
+}

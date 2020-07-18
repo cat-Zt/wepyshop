@@ -92,7 +92,7 @@ export default class Index extends wepy.page {
     toModule(item) {
       console.log(item)
       wx.navigateTo({
-        url: `/pages/classify/${item.url}`
+        url: `/pages/fucntioalZone/${item.url}`
       })
     }
   };

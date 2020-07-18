@@ -1,0 +1,399 @@
+<style lang="less">
+@import 'schedule.less';
+</style>
+<template>
+  <view>
+    <view class="wrapper">
+        <!-- 编辑心情按钮 -->
+        <view class="wrapper-navigator" bindtap="goDiary">
+            <i class="iconfont #icon-htmal5icon16"></i>
+        </view>
+        <view class="wrapper-container" id="canvas-wrapper" style="padding-top: {{paddingTop}}px">
+                <view class="wrapper-container-now">
+                    <!-- 地址 -->
+                    <view class="location" bindtap="chooseLocation">
+                        <i class="icon iconfont #icon-tubiaozhizuomoban1"></i>
+                        <text class="text">{{ address }}</text>
+                    </view>
+                    <!-- 空气质量 -->
+                    <view class="airQuality" wx:if="{{air.air}}">
+                        <text class="circle" style="background: {{ air.color }}"></text>
+                        <text class="value">{{ air.air_level }} {{ air.air }}</text>
+                    </view>
+                    <!-- 天气详情 -->
+                    <view class="weather-detail">
+                        <i class="icon iconfont #icon-{{current.icon}}"></i>
+                        <view class="detail-bottom">
+                            <text class="bottom-description">{{current.weather}}</text>
+                            <view class="bottom-TH">
+                                <view class="bottom-temperatures">
+                                    <text class="temperaturestext">{{current.temp}}°C</text>
+                                    <text>温度</text>
+                                </view>
+                                <view class="bottom-humidity">
+                                    <text class="temperaturestext">{{current.humidity}}</text>
+                                    <text>湿度</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+                <!-- 风速等 -->
+                <view class="wrapper-container-wind">
+                    <view class="wind-detail">
+                        <text>{{setvisibility.wind}}</text>
+                        <text>{{setvisibility.rank}}</text>
+                    </view>
+                    <view class="wind-detail">
+                        <text>体感温度</text>
+                        <text>{{setvisibility.somatosensory}}°C</text>
+                    </view>
+                    <view class="wind-detail">
+                        <text>能见度</text>
+                        <text>{{setvisibility.visibility}}</text>
+                    </view>
+                    <view class="wind-detail">
+                        <text>气压</text>
+                        <text>{{setvisibility.pressure}}</text>
+                    </view>
+                </view>
+                <!-- 两天天气预报 -->
+                <view class="wrapper-container-forecast">
+                    <view class="forecast-day">
+                        <text>明天</text>
+                        <i class="icon iconfont #icon-{{tomorrow.icon}}"></i>
+                        <text>{{tomorrow.wea}}</text>
+                        <text>{{tomorrow.temStr}}</text>
+                    </view>
+                    <view class="forecast-day">
+                        <text>后天</text>
+                        <i class="icon iconfont #icon-{{afterDay.icon}}"></i>
+                        <text>{{afterDay.wea}}</text>
+                        <text>{{afterDay.temStr}}</text>
+                    </view>
+                </view>
+        </view>
+        <!-- 二十四小时天气预报 -->
+        <view class="wrapper-hourly">
+            <scroll-view scroll-x class="hourly-bottom">
+                <view class="scrollX">
+                    <view class="item" wx:for="{{hourlyData}}" wx:key="index">
+                        <text class="time">{{ item.hours }}</text>
+                        <i class="icon iconfont #icon-{{item.wea_img}}"></i>
+                        <text class="temp">{{item.tem}}°</text>
+                    </view>
+                </view>
+            </scroll-view>
+        </view>
+        <!-- 适宜 -->
+        <view class="wrapper-life">
+           <view class="life-style">
+            <view class="item" wx:for="{{lifeStyle}}" wx:key="index" data-name="{{item.name}}" data-detail="{{item.detail}}" bindtap="indexDetail">
+                <view class="title">
+                    <i class="icon iconfont #icon-{{item.icon}}"></i>
+                    <text>{{item.name}}</text>
+                </view>
+                <view class="content">{{item.info}}</view>
+            </view>
+          </view>
+        </view>
+        <!-- 底部 -->
+        <view class="wrapper-soure">
+            自制力决定下限,兴趣决定上限
+        </view>
+    </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy';
+import { lotusAjax } from '../../utils/lotusAjax'
+import { geocoder } from '../../api/api.js';
+export default class Index extends wepy.page {
+  config = {
+    navigationStyle: "custom"
+  };
+  data = {
+    width: 0,
+    scale: 0,
+    paddingTop: 0,
+    address: '北京市海淀区西二旗北路北京市海(淀区西二旗北路北京市海淀区西二旗北路)',
+    current: {
+        icon: '',
+        temp: '',
+        weather: '',
+        humidity: ''
+    },
+    setvisibility: {},
+    // 空气
+    air: {
+        air: '',
+        air_level: '',
+        color: ''
+    },
+    hourlyData: [],
+    lifeStyle: [
+        {
+            icon: '#icon-ziwaixian',
+            name: '紫外线指数',
+            info: '最弱'
+        },
+        {
+            icon: '#icon-yundong',
+            name: '减肥指数',
+            info: '炎热'
+        },
+        {
+            icon: '#icon-ganmao',
+            name: '血糖指数',
+            info: '少发'
+        },
+        {
+            icon: '#icon-yifu',
+            name: '穿衣指数',
+            info: '较不宜'
+        },
+        {
+            icon: '#icon-xiche',
+            name: '洗车指数',
+            info: '较不宜'
+        },
+        {
+            icon: '#icon-shachen', 
+            name: '污染扩散指数',
+            info: '很强'
+        }
+    ],
+    tomorrow: {},
+    afterDay: {},
+    effectInstance: null,
+    city: '佛山'
+  };
+  methods = {
+    
+  };
+  // 获取位置
+  getLocation() {
+    const that = this;
+    // 获取当前的地理位置、速度。
+    wx.getLocation({
+      type: 'gcj02',
+      success (res) {
+        that.updateLocation(res);
+      },
+      fail: e => {
+        this.openLocation();
+      }
+    });
+  };
+  openLocation() {
+    wx.showToast({
+      title: '检测到您未授权使用位置权限，请先开启哦',
+      icon: 'none',
+      duration: 3000
+    })
+  };
+  // 处理逆经纬度
+  getAddress(lat, lon, name) {
+        const that = this;
+        wx.showLoading({
+          title: '定位中',
+          mask: true
+        })
+        let fail = (e) => {
+          this.address = name;
+          wx.hideLoading()
+          that.getWeatherData()
+        }
+        geocoder(lat, lon,(res) => {
+            wx.hideLoading()
+            let result = (res.data || {}).result
+            if (res.statusCode === 200 && result && result.address) {
+              let {address, formatted_addresses, address_component} = result
+              if (formatted_addresses && (formatted_addresses.recommend || formatted_addresses.rough)) {
+                this.address = formatted_addresses.recommend || formatted_addresses.rough;
+                this.$apply()
+              }
+              let { city } = address_component;
+              const cityArray = city.split("");
+              cityArray.splice(cityArray.length-1,1);
+              const cityStr = cityArray.join('');
+              that.getWeatherData(cityStr)
+            } else {
+              //失败
+              fail()
+            }
+          },
+          fail
+        )
+  };
+  // 处理当前的地理位置
+  updateLocation(res) {
+    let { latitude: lat, longitude: lon, name } = res;
+    let data = {lat, lon};
+    if (name) {
+      data.address = name;
+    }
+    // 使用腾讯地图获取当前的位置信息回显
+    this.getAddress(lat, lon, name);
+  };
+  // 取缓存的数据展示
+  setDataFromCache() {
+    wx.getStorage({
+      key: 'defaultData',
+      success: ({ data }) => {
+        if (data && !isUpdate) {
+          // 存在并且没有获取数据成功，那么可以给首屏赋值上次数据
+          const {
+            current,
+            backgroundColor,
+            backgroundImage,
+            today,
+            tomorrow,
+            address,
+            tips,
+            hourlyData
+          } = data;
+          this.setData({
+            current,
+            backgroundColor,
+            backgroundImage,
+            today,
+            tomorrow,
+            address,
+            tips,
+            hourlyData
+          });
+        }
+      }
+    });
+  };
+  // 获取其他的数据(天气/心情/空气质量)
+  getWeatherData(city) {
+    // 空气质量
+    lotusAjax.fetch("GET",'https://www.tianqiapi.com/api/', {
+        data: {
+            appid: "95824612",
+            appsecret: "4bjAG6xE",
+            version: 'v9',
+            city: city
+        }    
+    }).then((response) => {
+        console.log(response, 'response')
+        this.disposeData(response);
+        this.setcurrent(response.data[0]);
+        const TwoDay = response.data.splice(1, 2);
+        console.log(TwoDay)
+        this.setTwoDay(TwoDay);
+    });
+  };
+  // 空气质量
+  disposeData(data) {
+      // 空气质量
+      const aqiParams = {};
+      aqiParams['air'] = data.aqi.air;
+      aqiParams['air_level'] = data.aqi.air_level;
+      this.getapi(aqiParams);
+  };
+  setColor(color, objair, objaqi) {
+        objaqi['color'] = color;
+        objair = Object.assign(objair, objaqi);
+        this.$apply();
+  };
+  // 顶部天气
+  setcurrent(data) {
+    this.current['icon'] = data.wea_img;
+    this.current['temp'] = data.tem;
+    this.current['weather'] = data.wea;
+    this.current['humidity'] = data.humidity;
+    this.setvisibility['wind'] = data.win[0];
+    this.setvisibility['rank'] = data.win_speed;
+    this.setvisibility['somatosensory'] = data.tem1;
+    this.setvisibility['visibility'] = data.visibility;
+    this.setvisibility['pressure'] = data.pressure;
+    // 二十四小时
+    data.hours.map(item => {
+       item.hours = item.hours.slice(0, 2) + ': 00';
+    })
+    this.hourlyData = data.hours;
+    // 适宜
+    this.lifeStyle[0]['info'] = data.index[0].level;
+    this.lifeStyle[1]['info'] = data.index[1].level;
+    this.lifeStyle[2]['info'] = data.index[2].level;
+    this.lifeStyle[3]['info'] = data.index[3].level;
+    this.lifeStyle[4]['info'] = data.index[4].level;
+    this.lifeStyle[5]['info'] = data.index[5].level;
+    this.$apply();
+  };
+  // 两天天气预报
+  setTwoDay(Daydata) {
+      this.tomorrow['icon'] = Daydata[0].wea_img;
+      this.tomorrow['wea'] = Daydata[0].wea;
+      this.tomorrow['temStr'] = Daydata[0].tem2 + '°C' + '~' + Daydata[0].tem + '°C';
+      this.afterDay['icon'] = Daydata[1].wea_img;
+      this.afterDay['wea'] = Daydata[1].wea;
+      this.afterDay['temStr'] = Daydata[1].tem2 + '°C' + '~' + Daydata[1].tem + '°C';
+      this.$apply();
+  };
+  getapi(aqiParams) {
+      const that = this;
+      switch (aqiParams.air_level) {
+            case '优':
+              that.setColor('#70c045', that.air, aqiParams);
+              break;
+            case '良':
+              that.setColor('#f5e837', that.air, aqiParams);
+              break;
+            case '轻度污染':
+              that.setColor('#f5a616', that.air, aqiParams);
+            break;
+              case '中度污染':
+              that.setColor('#f03a36', that.air, aqiParams);
+            break;
+              case '重度污染':
+              that.setColor('#892d84', that.air, aqiParams);
+            break;
+              case '严重污染':
+              that.setColor('#704c28', that.air, aqiParams);
+              break;
+          default:
+              break;
+      }
+  };
+  onLoad() {
+    const that = this;
+    // 获取系统信息
+    wx.getSystemInfo({
+      success: res => {
+        that.width = res.windowWidth;
+        that.scale = that.width / 375;
+        that.paddingTop = res.statusBarHeight + 12;
+        this.$apply()
+      }
+    });
+    const pages = getCurrentPages(); //获取加载的页面
+    const currentPage = pages[pages.length - 1]; //获取当前页面的对象
+    const query = currentPage.options;
+    console.log(query)
+    if (query && query.address && query.lat && query.lon) {
+      let { province, city, county, address, lat, lon } = query;
+      //   this.setData(
+      //     {
+      //       city,
+      //       province,
+      //       county,
+      //       address,
+      //       lat,
+      //       lon
+      //     },
+      //     () => {
+      //       this.getWeatherData()
+      //     }
+      //   )
+    } else {
+      // 获取缓存数据
+      that.setDataFromCache();
+      that.getLocation();
+    }
+  }
+}
+</script>

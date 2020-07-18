@@ -18,7 +18,8 @@ export default class extends wepy.app {
       'pages/newsLists/newsLists',
       'pages/my/my',
       'pages/classify/searchGoods', // 商品搜索,
-      'pages/authorize/authorize' // 授权页面
+      'pages/authorize/authorize', // 授权页面
+      'pages/fucntioalZone/schedule' // 天气预报
     ],
     window: {
       navigationBarBackgroundColor: '#ffffff',
@@ -55,6 +56,11 @@ export default class extends wepy.app {
           selectedIconPath: 'images/user@select.png'
         }
       ]
+    },
+    permission: {
+      "scope.userLocation": {
+        "desc": "你的位置信息将用于小程序位置接口的效果展示"
+      }
     }
   };
   //全局变量
