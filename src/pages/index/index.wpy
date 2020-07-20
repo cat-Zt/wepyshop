@@ -9,7 +9,7 @@
       <view class="functionalZone-container">
         <swiper autoplay="auto" interval="5000" duration="500" current="{{swiperCurrent}}" bindchange="swiperChange" class="functionalZone-container-swiper">
           <block wx:for="{{slider}}" wx:key="unique">
-            <swiper-item data-id="{{item.id}}" data-url="{{item.linkUrl}}">
+            <swiper-item data-id="{{item.id}}">
               <image src="{{item.picUrl}}" class="functionalZone-container-swiper-img"></image>
             </swiper-item>
           </block>
@@ -51,19 +51,16 @@ export default class Index extends wepy.page {
   data = {
     slider: [
       {
-        picUrl: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
-        id: 1,
-        linkUrl: 'https://images.unsplash.com/photo-1551334787-21e6bd3ab135?w=640',
+        picUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=114184491,1505698036&fm=26&gp=0.jpg',
+        id: 1
       },
       {
-        picUrl: 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
-        id: 2,
-        linkUrl: 'https://images.unsplash.com/photo-1551214012-84f95e060dee?w=640',
+        picUrl: 'https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=3269814997,770937622&fm=26&gp=0.jpg',
+        id: 2
       },
       {
-        picUrl: 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640',
-        id: 3,
-        linkUrl: 'https://images.unsplash.com/photo-1551446591-142875a901a1?w=640',
+        picUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=1147976155,4103057146&fm=26&gp=0.jpg',
+        id: 3
       }
     ],
     moduleData: index.funcs,
