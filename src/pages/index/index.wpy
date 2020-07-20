@@ -6,7 +6,7 @@
     <lotusSearch searchBtnTxt="搜索商品" type="btn" @searchTabClick.user="searchTabClick"></lotusSearch>
     <!-- 轮播图 -->
     <view>
-      <view class="functionalZone-container">
+      <!-- <view class="functionalZone-container">
         <swiper autoplay="auto" interval="5000" duration="500" current="{{swiperCurrent}}" bindchange="swiperChange" class="functionalZone-container-swiper">
           <block wx:for="{{slider}}" wx:key="unique">
             <swiper-item data-id="{{item.id}}">
@@ -19,7 +19,18 @@
             <view class="functionalZone-container-dots-dot{{index == swiperCurrent ? ' active' : ''}}" bindtap="chuangEvent" id="{{index}}">{{index+1}}</view>
           </block>
         </view>
-      </view>
+      </view> -->
+      <view class="index-banner">
+            <swiper autoplay="auto" interval="2000" duration="500" class="index-banner-swiper" indicator-active-color="#e93b3d" indicator-color="#e7e7e7" indicator-dots="{{circular}}" bindchange="swiperChange" circular="{{circular}}" previous-margin="20rpx" next-margin="20rpx">
+                <repeat for="{{slider}}" index="index" item="item" key="index">
+                    <swiper-item class="index-banner-swiper-item">
+                        <view class="index-banner-item {{swiperCurrent === index?'index-banner-active':''}}">
+                            <image class="index-banner-pic" src="{{item.picUrl}}" mode="scaleToFill"></image>
+                        </view>
+                    </swiper-item>
+                </repeat>
+            </swiper>
+        </view>
     </view>
     <!-- 功能区 -->
     <view class="functionalZone-func">
@@ -49,6 +60,7 @@ export default class Index extends wepy.page {
     navigationBarTitleText: '幻想乡'
   };
   data = {
+    circular:true,
     slider: [
       {
         picUrl: 'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=114184491,1505698036&fm=26&gp=0.jpg',
