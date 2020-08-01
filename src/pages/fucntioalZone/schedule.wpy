@@ -118,12 +118,18 @@ export default class Index extends wepy.page {
     paddingTop: 0,
     address: '北京市海淀区西二旗北路北京市海(淀区西二旗北路北京市海淀区西二旗北路)',
     current: {
-        icon: '',
-        temp: '',
-        weather: '',
-        humidity: ''
+        icon: 'yun',
+        temp: '30',
+        weather: '晴',
+        humidity: '73'
     },
-    setvisibility: {},
+    setvisibility: {
+      wind: '东风',
+      rank: '3级',
+      somatosensory: '30',
+      visibility: '暂无',
+      pressure: 1001
+    },
     // 空气
     air: {
         air: '',

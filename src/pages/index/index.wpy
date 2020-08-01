@@ -21,7 +21,7 @@
         </view>
       </view> -->
       <view class="index-banner">
-            <swiper autoplay="auto" interval="2000" duration="500" class="index-banner-swiper" indicator-active-color="#e93b3d" indicator-color="#e7e7e7" indicator-dots="{{circular}}" bindchange="swiperChange" circular="{{circular}}" previous-margin="20rpx" next-margin="20rpx">
+            <swiper autoplay="auto" interval="3000" duration="800" class="index-banner-swiper" indicator-active-color="#e93b3d" indicator-color="#e7e7e7" indicator-dots="{{circular}}" bindchange="swiperChange" circular="{{circular}}" previous-margin="20px" next-margin="20px">
                 <repeat for="{{slider}}" index="index" item="item" key="index">
                     <swiper-item class="index-banner-swiper-item">
                         <view class="index-banner-item {{swiperCurrent === index?'index-banner-active':''}}">
